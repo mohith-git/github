@@ -15,7 +15,7 @@ app = Flask(__name__)
 
 #Basic functions:
 def read_file(f):
-    file = open("C:/Users/MOHITHTHAMANA/Desktop/Transmembrane/{}.pdb".format(f))
+    file = open(r"C:/Users/MOHITHTHAMANA/Desktop/Transmembrane/pdbf/{}.pdb".format(f))
     a=file.read()
     a=a.splitlines()
     return a
