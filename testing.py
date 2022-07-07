@@ -13,9 +13,11 @@ app = Flask(__name__,static_folder=STATIC_DIR)
 app = Flask(__name__)
 
 
+
 #Basic functions:
 def read_file(f):
     name = os.path.join(app.root_path,'pdbf',f+'.pdb')
+    
     file = open(name)
     a=file.read()
     a=a.splitlines()
@@ -148,7 +150,61 @@ def Contact_Order(f):
             i1=i1+1
         return(summ/len(xa))
 
-def disulphide_interaction(f):
+# def A8(self):
+#         inp = float(input())
+#         degree = {}
+#         for i in self.xa:
+#             j1=0
+#             deg = 0
+#             for j in self.xa:
+#                 d=c.distance_formula(i,j)
+#                 if 0<d**0.5<=inp:
+#                     deg+=1
+#                 j1=j1+1
+#             degree['{0}-{1}'.format(i[3],i[5])] = deg
+#         #print('C-alpha:{0}'.format(inp))
+#         return(degree)
+#     # def A14(self):
+#     #     inp = float(input())
+#     #     degree = {}
+#     #     for i in self.xa:
+#     #         j1=0
+#     #         deg = 0
+#     #         for j in self.xa:
+#     #             d=c.distance_formula(i,j)
+#     #             if 0<d**0.5<=inp:
+#     #                 deg+=1
+#     #             j1=j1+1
+#     #         degree['{0}-{1}'.format(i[3],i[5])] = deg
+#     #     print(degree)
+# def B8(self):
+#         inp = float(input())
+#         degree = {}
+#         for i in self.xb:
+#             j1=0
+#             deg = 0
+#             for j in self.xb:
+#                 d=c.distance_formula(i,j)
+#                 if 0<d**0.5<=inp:
+#                     deg+=1
+#                 j1=j1+1
+#             degree['{0}-{1}'.format(i[3],i[5])] = deg
+#         #print('C-beta:{0}'.format(inp))
+#         return (degree)
+#     # def B14(self):
+#     #     inp = float(input())
+#     #     degree = {}
+#     #     for i in self.xb:
+#     #         j1=0
+#     #         deg = 0
+#     #         for j in self.xb:
+#     #             d=c.distance_formula(i,j)
+#     #             if 0<d**0.5<=inp:
+#     #                 deg+=1
+#     #             j1=j1+1
+#     #         degree['{0}-{1}'.format(i[3],i[5])] = deg
+#     #     print(degree)
+def Disulphide_interaction(f):
         
         fi = read_file(f)
         cys1,cys = [],[]
@@ -308,7 +364,7 @@ def Side_Side_Chain_H_Bond(f):
                 j1=j1+1
             i1=i1+1
         
-        return(((h_bond)))
+        return(((h_bond)))   
     
 def Ionic_Interaction(f):
         fi = read_file(f)
@@ -337,6 +393,46 @@ def Ionic_Interaction(f):
         
         
         return(ion)
+    
+# def Surr_Hydrophob(f):
+        
+#         fi = read_file(f)
+#         xa=[]
+        
+#         for i in fi:
+#             aa=i.split()
+#             if aa[0]=='ATOM' and aa[4]=='A' and aa[2]=='CA':
+#                 xa.append(aa)
+#             if aa[0] == 'MODEL' and aa[1] == '2':
+#                 break
+#         hydro_index = {'ALA': 0.87 , 'ASP': 0.66, 'CYS': 1.52, 'GLU': 0.67, 'PHE': 2.87 , 'GLY':0.1, 'HIS': 0.87, 'ILE': 3.15,
+#        			'LYS': 1.64, 'LEU': 2.17,'MET':1.67 ,'ASN': 0.09,'PRO': 2.77,'GLN': 0 ,'ARG':0.85, 'SER': 0.07,
+#        			'THR':0.07, 'VAL':1.87, 'TRP': 3.77, 'TYR': 2.67}
+        
+#         surr = []
+        
+#         i1=0
+#         for i in xa:
+#             j1=0
+#             interact = []
+#             score = 0
+#             for j in xa:
+#                 d=distance_formula(i,j)
+#                 if 0<d**0.5<8:
+#                     interact.append(j[3])
+                
+#             for k in set(interact):
+#                    if k=='AHIS' or k=='BHIS':
+#                     score+=(interact.count(k)*0.87)
+#                    else:
+#                     score+=(interact.count(k)*hydro_index[k]) 
+
+#             j1=j1+1
+#             surr.append([i[3],i[5],round(score,2)])
+                
+#             i1=i1+1
+         
+#         return((surr))
 # @app.route("/",methods=['POST','GET'])
 # def first():
 #     if request.method=='POST':
@@ -391,10 +487,30 @@ def contact_order(f):
 @app.route("/ion/")
 @app.route("/ion/<f>")
 def ionic_interaction(f):
+        return render_template('ion.html',y=Ionic_Interaction(f),z='Ionic_Interactions')
+
+@app.route("/di/")
+@app.route("/di/<f>")
+def disulphide_interaction(f):
+        return render_template('ion.html',y=Disulphide_interaction(f),z='Disulphide_Interactions')
     
-        return render_template('ion.html',y='Ionic_Interaction(f)')
+@app.route("/di/")
+@app.route("/di/<f>")
+def hydrophobic_interaction(f):
+        return render_template('ion.html',y=Hydrophobic_interaction(f),z='Hydrophobic_Interactions')
+    
 
-
+# @app.route("/di/")
+# @app.route("/di/<f>")
+# def disulphide_interaction(f):
+#         return render_template('ion.html',y=Ionic_Interaction(f))
+    
+    
+# @app.route("/di/")
+# @app.route("/di/<f>")
+# def disulphide_interaction(f):
+#         return render_template('ion.html',y=Ionic_Interaction(f))
+    
 
 
      
@@ -409,9 +525,8 @@ def ionic_interaction(f):
 
 
 
-if __name__ == "__main__":
-     app.run(debug=True)
-    
+#if __name__ == "__main__":
+app.run(debug=True)
   
     
     
