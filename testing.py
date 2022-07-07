@@ -15,7 +15,8 @@ app = Flask(__name__)
 
 #Basic functions:
 def read_file(f):
-    file = open(r"C:/Users/MOHITHTHAMANA/Desktop/Transmembrane/pdbf/{}.pdb".format(f))
+    name = os.path.join(app.root_path,'pdbf',f+'.pdb')
+    file = open(name)
     a=file.read()
     a=a.splitlines()
     return a
