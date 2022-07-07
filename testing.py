@@ -494,8 +494,8 @@ def ionic_interaction(f):
 def disulphide_interaction(f):
         return render_template('ion.html',y=Disulphide_interaction(f),z='Disulphide_Interactions')
     
-@app.route("/di/")
-@app.route("/di/<f>")
+@app.route("/hi/")
+@app.route("/hi/<f>")
 def hydrophobic_interaction(f):
         return render_template('ion.html',y=Hydrophobic_interaction(f),z='Hydrophobic_Interactions')
     
