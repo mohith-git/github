@@ -5,7 +5,8 @@
   </div>
      <div id='test'> 
       <table id='flow'>
-    	<tr>
+      {% if z == 'Ionic_Interactions' %}
+    	 <tr>
     		<th>Residue Name</th>
     		<th>Residue Number</th>
     		<th>Atom</th>
@@ -13,8 +14,9 @@
         <th>Residue Number</th>
         <th>Atom</th>
         <th>Distance</th>
-    	</tr>
-    	{% for i in y %}
+    	 </tr>
+
+    	 {% for i in y %}
           <tr>
           	<td>{{i[0]}}</td>
           	<td>{{i[1]}}</td>
@@ -25,6 +27,28 @@
             <td>{{i[6]}}</td>
           </tr>
         {%endfor%}
+      {%else%}
+        <tr>
+        <th>Residue Name</th>
+        <th>Residue Number</th>
+        
+        <th>Residue Name</th>
+        <th>Residue Number</th>
+        
+        <th>Distance</th>
+       </tr>
+
+       {% for i in y %}
+          <tr>
+            <td>{{i[0]}}</td>
+            <td>{{i[1]}}</td>
+            <td>{{i[2]}}</td>
+            <td>{{i[3]}}</td>
+            <td>{{i[4]}}</td>
+            
+          </tr>
+        {%endfor%}
+      {%endif%}
 
       </table>
      </div> 
