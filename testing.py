@@ -69,7 +69,7 @@ def Medium_range(f):
             j1=0
             for j in xa:
                 d=distance_formula(i,j)
-                if 3.5<d**0.5<7 and [j[3],j[5],i[3],i[5],round(d**0.5,2)] not in mr and abs(i1-j1)<=4 :
+                if 3.5<d**0.5<7 and [j[3],j[5],i[3],i[5],round(d**0.5,2)] not in mr and 3<=abs(i1-j1)<=4 :
                     mr.append([i[3],i[5],j[3],j[5],round(d**0.5,2)])
                 j1=j1+1
             i1=i1+1
@@ -91,7 +91,7 @@ def Long_range(f):
             j1=0
             for j in xa:
                 d=distance_formula(i,j)
-                if 3.5<d**0.5<7 and [j[3],j[5],i[3],i[5],round(d**0.5,2)] not in lr and abs(i1-j1)<=6 :
+                if 3.5<d**0.5<7 and [j[3],j[5],i[3],i[5],round(d**0.5,2)] not in lr and abs(i1-j1)>4:
                     lr.append([i[3],i[5],j[3],j[5],round(d**0.5,2)])
                 j1=j1+1
             i1=i1+1
