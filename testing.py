@@ -6,7 +6,7 @@ Created on Tue Jun 21 16:10:15 2022
 """
 
 from flask import Flask, redirect, url_for, render_template, request
-import numpy as np
+
 import os
 STATIC_DIR = os.path.abspath(r'C:\Users\MOHITHTHAMANA\Desktop\Transmembrane\static')
 app = Flask(__name__,static_folder=STATIC_DIR)
