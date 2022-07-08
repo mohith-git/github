@@ -1,0 +1,57 @@
+{% extends "layout.html" %}
+{% block content %}
+   <div class='cs'>
+    <h3>{{z}}</h3>
+   </div>
+  <div class = 'row'>
+  
+   <div class="cs1">
+    <table>
+       <caption>{{'Distance Cutoff:'}}{{a}}{{'A'+'\u00B0'}}{{' '}}{{x}}</caption>
+       <tr>
+        <th>Residue Name</th>
+        <th>Residue Number</th>
+        <th>Chain</th>
+        <th>No of Contacts</th>
+        <th>Contacts</th>
+       </tr>
+
+       {% for i in b %}
+          <tr>
+            <td>{{i[0]}}</td>
+            <td>{{i[1]}}</td>
+            <td>{{i[2]}}</td>
+            <td>{{i[3]}}</td>
+            <td>{{i[4]}}</td>
+          </tr>
+        {%endfor%}
+    </table>
+   </div>
+   
+   <div class="cs1">
+   	
+    <table>
+        <caption>{{'Distance Cutoff:'}}{{c}}{{'A'+'\u00B0'}}{{' '}}{{y}}</caption>
+        <tr>
+         <th>Residue Name</th>
+         <th>Residue Number</th>
+         <th>Chain</th>
+         <th>No of Contacts</th>
+         <th>Contacts</th>
+        </tr>
+
+       {% for j in d %}
+          <tr>
+            <td>{{j[0]}}</td>
+            <td>{{j[1]}}</td>
+            <td>{{j[2]}}</td>
+            <td>{{j[3]}}</td>
+            <td>{{j[4]}}</td>
+          </tr>
+        {%endfor%}
+    </table>
+   </div>
+  </div>
+    <p>...........................................</p>
+  
+{% endblock %}

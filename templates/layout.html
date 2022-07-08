@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type= "text/css" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+  <body>
+    
+      <div class="container" style="background-color: gray">
+        <h1 class="logo">Welcome to Transmembrane App!!!!!</h1>
+        <strong><nav>
+           
+       
+         
+          <form method="post" action="/">
+          	PDB ID:<input type="text" name='Pdb'>
+          	<br><br>
+            Chain(Optional):<input type="text" name="chain">
+          	<br><br>
+            Cutoff Distance (Number of Contacts of CA atoms Only):<input type="text" name="cutoff"> (Number of Contacts of CB atoms Only):<input type="text" name="cutoff">
+            <br><br>
+            <br><br>
+           <div id='list'>
+            <table>
+             <tr><td><input type="radio" value="short_range" name="redirect"><label>Short_Range</label></td></tr>
+             <tr><td><input type="radio" value="medium_range" name="redirect"><label>Medium_Range</label></td></tr>
+             <tr><td><input type="radio" value="long_range" name="redirect"><label>Long_Range</label></td></tr>
+             <tr><td><input type="radio" value="contact_order" name="redirect"><label>Contact_Order</label></td></tr>
+             <tr><td><input type="radio" value="contact_degree" name="redirect"><label>Contact_Degree</label></td></tr>
+             <tr><td><input type="radio" value="long_range_order" name="redirect"><label>Long_Range_Order</label></td></tr>
+             <tr><td><input type="radio" value="contacts" name="redirect"><label>Total No of Contacts(CA Atoms, CB Atoms)</label></td></tr>
+             <tr><td><input type="radio" value="ionic_interaction" name="redirect"><label>Ionic_Interaction</label></td></tr>
+             <tr><td><input type="radio" value="disulphide_interaction" name="redirect"><label>Disulphide_Interaction</label></td></tr>
+             <tr><td><input type="radio" value="mmch" name="redirect"><label>Main-Main-Chain Hydrogen Interaction</label></td></tr>
+             <tr><td><input type="radio" value="msch" name="redirect"><label>Main-Side-Chain Hydrogen Interaction</label></td></tr>
+             <tr><td><input type="radio" value="ssch" name="redirect"><label>Side-Side-Chain Hydrogen Interaction</label></td></tr>
+             <tr><td><input type="radio" value="hydrophobic_interaction" name="redirect"><label>Hydrophobic_Interaction</label></td></tr>
+             <tr><td><input type="radio" value="cation_pi" name="redirect"><label>Cation_Pi_Interaction</label></td></tr>
+             <tr><td><input type="radio" value="aromatic_sulphur" name="redirect"><label>Aromatic_Sulphur_Interaction</label></td></tr>
+             <tr><td><input type="radio" value="aromatic_aromatic" name="redirect"><label>Aromatic_Aromatic_Interaction</label></td></tr>
+             <tr><td><input type="radio" value="regions" name="redirect"><label>Regions</label></td></tr>
+            </table>
+           </div>
+            
+
+             <input type='Submit' value='Submit!'>
+             <input type="button" value="Go back!" onclick="history.back()">
+             <input type="button" value="Reloads!" onclick="history.go(0)">
+          </form>
+         
+
+
+        </nav></strong>
+      </div>
+      
+      
+    <div class="container">
+      {% block content %}
+      {% endblock %}
+    </div>
+    
+    
+
+
+
+     
+  </body>
+</html>
