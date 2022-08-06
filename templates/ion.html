@@ -1,0 +1,124 @@
+{% extends "layout.html" %}
+{% block content %}
+  <div class='ion'>
+    <h2 class='two'>{{z}}</h2>
+  </div>
+     <div id='test'> 
+      <table id='flow'>
+      {% if z == 'Ionic_Interactions' or z == 'Cation_pi_Interactions' %}
+    	 <tr>
+    		<th>Residue Name</th>
+    		<th>Residue Number</th>
+    		<th>Atom</th>
+    		<th>Residue Name</th>
+        <th>Residue Number</th>
+        <th>Atom</th>
+        <th>Distance</th>
+    	 </tr>
+
+    	 {% for i in y %}
+          <tr>
+          	<td>{{i[0]}}</td>
+          {%if i[1] in a %}
+            <td style="background-color: green">{{i[1]}}</td>
+          {%elif i[1] in b %}
+            <td style="background-color: red">{{i[1]}}</td>
+          {%else%}
+            <td style="background-color: blue">{{i[1]}}</td>
+          {%endif%}
+          	<td>{{i[2]}}</td>
+          	<td>{{i[3]}}</td>
+          {%if i[4] in a %}
+            <td style="background-color: green">{{i[4]}}</td>
+          {%elif i[4] in b %}
+            <td style="background-color: red">{{i[4]}}</td>
+          {%else%}
+            <td style="background-color: blue">{{i[4]}}</td>
+          {%endif%}
+            <td>{{i[5]}}</td>
+            <td>{{i[6]}}</td>
+          </tr>
+        {%endfor%}
+      {%elif z == 'Long_Range_Order' %}
+       <br>
+       <p>{{x}}</p>
+       <tr>
+        <th>Residue Name</th>
+        <th>Residue Number</th>
+        <th>Chain</th>
+        <th>Order</th>
+       </tr>
+
+       {% for i in y %}
+          <tr>
+            <td>{{i[0]}}</td>
+            <td>{{i[1]}}</td>
+            <td>{{i[2]}}</td>
+            <td>{{i[3]}}</td>
+          </tr>
+        {%endfor%}
+      
+      {%elif z == 'Main_Main_Chain_Hydrogen_Interactions' or z == 'Main_Side_Chain_Hydrogen_Interactions' or z=='Side_Side_Chain_Hydrogen_Interactions' %}
+        <tr>
+        <th>Residue Name</th>
+        <th>Residue Number</th>
+        <th>Donor</th>
+        <th>Residue Name</th>
+        <th>Residue Number</th>
+        <th>Acceptor</th>
+        <th>Distance</th>
+       </tr>
+
+       {% for i in y %}
+          <tr>
+            <td>{{i[0]}}</td>
+            <td>{{i[1]}}</td>
+            <td>{{i[2]}}</td>
+            <td>{{i[3]}}</td>
+            <td>{{i[4]}}</td>
+            <td>{{i[5]}}</td>
+            <td>{{i[6]}}</td>
+          </tr> 
+        {%endfor%}
+        
+       {%else%}
+        <tr>
+        <th>Residue Name</th>
+        <th>Residue Number</th>
+        
+        <th>Residue Name</th>
+        <th>Residue Number</th>
+        
+        <th>Distance</th>
+       </tr>
+
+        {% for i in y %}
+          <tr>
+            <td>{{i[0]}}</td>
+          {%if i[1] in a %}
+            <td style="background-color: green">{{i[1]}}</td>
+          {%elif i[1] in b %}
+            <td style="background-color: red">{{i[1]}}</td>
+          {%else%}
+            <td style="background-color: blue">{{i[1]}}</td>
+          {%endif%}
+            <td>{{i[2]}}</td>
+          {%if i[3] in a %}
+            <td style="background-color: green">{{i[3]}}</td>
+          {%elif i[3] in b %}
+            <td style="background-color: red">{{i[3]}}</td>
+          {%else%}
+            <td style="background-color: blue">{{i[3]}}</td>
+          {%endif%}
+            
+            <td>{{i[4]}}</td>
+            
+          </tr>
+        {%endfor%}
+      {%endif%}
+
+      </table>
+     </div> 
+    <p>...........................................</p>
+  
+{% endblock %}

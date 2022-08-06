@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+{% block content %}
+  <div class='sr'>
+    <h2 class='two'>Short-range Interactions</h2>
+  </div>
+     <div id='test'> 
+      <table id='flow'>
+    	<tr>
+    		<th>Residue Name</th>
+    		<th>Residue Number</th>
+    		<th>Residue Name</th>
+    		<th>Residue Number</th>
+    		<th>Distance</th>
+    	</tr>
+    	{% for i in x %}
+        
+          <tr>
+
+          	<td>{{i[0]}}</td>
+          {%if i[1] in a %}
+          	<td style="background-color: green">{{i[1]}}</td>
+          {%elif i[1] in b %}
+            <td style="background-color: red">{{i[1]}}</td>
+          {%else%}
+            <td style="background-color: blue">{{i[1]}}</td>
+          {%endif%}
+          	<td>{{i[2]}}</td>
+          {%if i[3] in a %}
+            <td style="background-color: green">{{i[3]}}</td>
+          {%elif i[3] in b %}
+            <td style="background-color: red">{{i[3]}}</td>
+          {%else%}
+            <td style="background-color: blue">{{i[3]}}</td>
+          {%endif%}
+          	
+          	<td>{{i[4]}}</td>
+          </tr>
+      {%endfor%}
+
+      </table>
+     </div> 
+    <p>...........................................</p>
+  
+{% endblock %}
