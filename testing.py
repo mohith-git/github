@@ -571,45 +571,45 @@ def Ionic_Interaction(f):
         
         return(ion)
     
-# def Surr_Hydrophob(f):
+def Surr_Hydrophob(f):
         
-#         fi = read_file(f)
-#         xa=[]
+         fi = read_file(f)
+         xa=[]
         
-#         for i in fi:
-#             aa=i.split()
-#             if aa[0]=='ATOM' and aa[4]=='A' and aa[2]=='CA':
-#                 xa.append(aa)
-#             if aa[0] == 'MODEL' and aa[1] == '2':
-#                 break
-#         hydro_index = {'ALA': 0.87 , 'ASP': 0.66, 'CYS': 1.52, 'GLU': 0.67, 'PHE': 2.87 , 'GLY':0.1, 'HIS': 0.87, 'ILE': 3.15,
-#        			'LYS': 1.64, 'LEU': 2.17,'MET':1.67 ,'ASN': 0.09,'PRO': 2.77,'GLN': 0 ,'ARG':0.85, 'SER': 0.07,
-#        			'THR':0.07, 'VAL':1.87, 'TRP': 3.77, 'TYR': 2.67}
+         for i in fi:
+             aa=i.split()
+             if aa[0]=='ATOM' and aa[4]=='A' and aa[2]=='CA':
+                 xa.append(aa)
+             if aa[0] == 'MODEL' and aa[1] == '2':
+                 break
+         hydro_index = {'ALA': 0.87 , 'ASP': 0.66, 'CYS': 1.52, 'GLU': 0.67, 'PHE': 2.87 , 'GLY':0.1, 'HIS': 0.87, 'ILE': 3.15,
+                   'LYS': 1.64, 'LEU': 2.17,'MET':1.67 ,'ASN': 0.09,'PRO': 2.77,'GLN': 0 ,'ARG':0.85, 'SER': 0.07,
+                   'THR':0.07, 'VAL':1.87, 'TRP': 3.77, 'TYR': 2.67}
         
-#         surr = []
+         surr = []
         
-#         i1=0
-#         for i in xa:
-#             j1=0
-#             interact = []
-#             score = 0
-#             for j in xa:
-#                 d=distance_formula(i,j)
-#                 if 0<d**0.5<8:
-#                     interact.append(j[3])
+         i1=0
+         for i in xa:
+             j1=0
+             interact = []
+             score = 0
+             for j in xa:
+                 d=distance_formula(i,j)
+                 if 0<d**0.5<8:
+                     interact.append(j[3])
                 
-#             for k in set(interact):
-#                    if k=='AHIS' or k=='BHIS':
-#                     score+=(interact.count(k)*0.87)
-#                    else:
-#                     score+=(interact.count(k)*hydro_index[k]) 
+             for k in set(interact):
+                    if len(k)==4:
+                     score+=(interact.count(k)*hydro_index[k[1:]])
+                    else:
+                     score+=(interact.count(k)*hydro_index[k]) 
 
-#             j1=j1+1
-#             surr.append([i[3],i[5],round(score,2)])
+             j1=j1+1
+             surr.append([i[3],i[5],round(score,2)])
                 
-#             i1=i1+1
+             i1=i1+1
          
-#         return((surr))
+         return((surr))
 # @app.route("/",methods=['POST','GET'])
 # def first():
 #     if request.method=='POST':
