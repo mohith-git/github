@@ -202,12 +202,12 @@ def Contact_Order(f):
 
 
 
-def Contact_Degree(self):
+def Contact_Degree(f):
         degree = {}
         fi = read_file(f)
         xb=[]
         xa=[]
-        
+        ans = []
         for i in fi:
             aa=i.split()
             if aa[0]=='ATOM' and aa[4]=='A' and aa[2]=='CA':
@@ -217,7 +217,7 @@ def Contact_Degree(self):
                 xb.append(aa)
             if aa[0] == 'MODEL' and aa[1] == '2':
                 break
-
+        
         for i in xb:
             j1=0
             deg = 0
@@ -226,7 +226,7 @@ def Contact_Degree(self):
                 if d**0.5<8:
                     deg+=1
                 j1=j1+1
-            degree[int(i[5])] = deg
+            degree[(i[3],int(i[5]))] = deg
         for i in xa:
           if i[3] == 'GLY': 
             j1=0
@@ -237,10 +237,13 @@ def Contact_Degree(self):
                 if 0<d**0.5<8:
                     deg+=1
                     j1=j1+1
-            degree[int(i[5])] = deg
+            degree[(i[3],int(i[5]))] = deg
        
-        for key in sorted(degree):
-           return [key, degree[key]]
+        for key in (degree):
+           ans.append([key, degree[key]])
+        
+        return sorted(ans,key=lambda x:x[0][1])
+
 
 
 
@@ -596,8 +599,8 @@ def Ionic_Interaction(f):
 #                     interact.append(j[3])
                 
 #             for k in set(interact):
-#                    if len(k)==4:
-#                     score+=(interact.count(k)*hydro_index[k[1:]) 
+#                    if k=='AHIS' or k=='BHIS':
+#                     score+=(interact.count(k)*0.87)
 #                    else:
 #                     score+=(interact.count(k)*hydro_index[k]) 
 
@@ -721,7 +724,12 @@ def contact_order(f):
           
           return render_template('co.html',y=Contact_Order(f))
 
-
+@app.route("/sh/")
+@app.route("/sh/<f>")
+def surr_hydro(f):
+          
+          return render_template('co.html',y=Surr_Hydrophob(f),z='Surrounding_hydrophobicity')
+        
 @app.route("/lro/")
 @app.route("/lro/<f>")
 def long_range_order(f):
@@ -734,7 +742,7 @@ def long_range_order(f):
 @app.route("/cd/<f>")
 def contact_degree(f):
           stack = Contact_Degree(f)
-          return render_template('cd.html',y=stack[0],x=stack[1],z='Contact_Degree')
+          return render_template('cd.html',y=stack,z='Contact_Degree')
 
 
 
