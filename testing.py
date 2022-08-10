@@ -728,7 +728,7 @@ def contact_order(f):
 @app.route("/sh/<f>")
 def surr_hydro(f):
           
-          return render_template('co.html',y=Surr_Hydrophob(f),z='Surrounding_hydrophobicity')
+          return render_template('surr.html',y=Surr_Hydrophob(f),z='Surrounding_hydrophobicity')
         
 @app.route("/lro/")
 @app.route("/lro/<f>")
