@@ -596,8 +596,8 @@ def Ionic_Interaction(f):
 #                     interact.append(j[3])
                 
 #             for k in set(interact):
-#                    if k=='AHIS' or k=='BHIS':
-#                     score+=(interact.count(k)*0.87)
+#                    if len(k)==4:
+#                     score+=(interact.count(k)*hydro_index[k[1:]) 
 #                    else:
 #                     score+=(interact.count(k)*hydro_index[k]) 
 
