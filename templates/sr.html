@@ -1,0 +1,381 @@
+{% extends "templa.html" %}
+{% block content %}
+
+ {% for i in range(0,d|length) %}
+         {% if i|string() in a %}
+          <span style="color:hotpink;font-weight:900;">{{d[i]}}</span>
+         {% elif i|string() in b %}
+          <span style="color:rgb(124, 252, 0);font-weight:900;">{{d[i]}}</span>
+         {%else%}
+          <span style="color:peru;font-weight:900;">{{d[i]}}</span>
+         {%endif%}
+       {%endfor%} 
+
+
+
+
+ <div class='sr'>
+    
+    
+    
+ </div>
+    
+   <div id="test" style="margin-top:20px;">
+    {%if r == 'all'%}
+     {% for k in range(0,x|length) %}
+      <!--<button class='dropdwn' onclick="toggle()">{{title[k]}}</button>-->
+      {% if x[k][1] in title and x[k][1] not in ['contact_order','long_range_order','surrounding_hydrophobicity']%}
+       <div style="overflow:scroll;height:50em;margin:3rem;"> 
+        <table id='flow' style="margin:10px;padding: 5px;">
+        {%if x[k][1]=='contacts'%}
+         <caption style="font-size: 25px;position: sticky;">{{x[k][1]}}---{{x[k][2]}}{{'A'+'\u00B0'}}</caption>
+        {%else%}
+         <caption style="font-size: 25px;position: sticky;">{{x[k][1]}}</caption>
+    	  {%endif%}
+         <tr>
+    		  <th>Residue Name</th>
+    		  <th>Residue Number</th>
+          {%if x[k][1]=='contacts'%}
+    		   <th>Chain</th>
+           <th>Number of Contacts</th>
+           <th>Contacts</th>
+          {%else%}
+           <th>Residue Name</th>
+           <th>Residue Number</th>
+           <th>Distance</th>
+          {%endif%}
+    		 
+    	   </tr>
+    	
+        {% for i in x[k][0] %}
+          <tr>
+
+          	<td>{{i[0]}}</td>
+          {%if i[1] in a %}
+          	<td style="background-color: hotpink;font-weight:900;">{{i[1]}}</td>
+          {%elif i[1] in b %}
+            <td style="background-color: rgb(124, 252, 0);font-weight:900;">{{i[1]}}</td>
+          {%else%}
+            <td style="background-color: peru;font-weight:900;">{{i[1]}}</td>
+          {%endif%}
+          	<td>{{i[2]}}</td>
+          {%if i[3] in a and x[k][1]!='contacts'%}
+            <td style="background-color:hotpink;font-weight:900;">{{i[3]}}</td>
+          {%elif i[3] in b and x[k][1]!='contacts'%}
+            <td style="background-color: rgb(124, 252, 0);font-weight:900;">{{i[3]}}</td>
+          {%else%}
+            {%if x[k][1]!='contacts'%}
+             <td style="background-color: peru;font-weight:900;">{{i[3]}}</td>
+            {%else%}
+             <td>{{i[3]}}</td>
+            {%endif%}
+          {%endif%}
+          	
+          	<td>{{i[4]}}</td>
+          </tr>
+        {%endfor%}
+        </table>
+       </div>
+      
+      {%elif x[k][1] in title and x[k][1] == 'contact_order'%}
+         <div style="text-align: center;font-size: 25px;">
+          <p >{{x[k][1]}}</p>
+          <p>{{x[k][0]}}</p>
+         </div>
+      {%elif x[k][1] in title and x[k][1] =='long_range_order'%}
+         <div style="overflow:scroll;height:50em;margin:3rem;"> 
+           <table id='flow' style="margin:10px;padding: 5px;">
+            <caption style="font-size: 25px;position: sticky;">{{x[k][1]}}----{{x[k][0][1]}}</caption>
+            <tr>
+              <th>Residue Name</th>
+              <th>Residue Number</th>
+              <th>Chain</th>
+              <th>Order</th>
+            </tr>
+
+
+         {% for i in x[k][0][0] %}
+            <tr>
+             <td>{{i[0]}}</td>
+             {%if i[1] in a %}
+            <td style="background-color: hotpink;font-weight:900;">{{i[1]}}</td>
+          {%elif i[1] in b %}
+            <td style="background-color: rgb(124, 252, 0);font-weight:900;">{{i[1]}}</td>
+          {%else%}
+            <td style="background-color: peru;font-weight:900;">{{i[1]}}</td>
+          {%endif%}
+             <td>{{i[2]}}</td>
+             <td>{{i[3]}}</td>
+           </tr>
+         {%endfor%}
+         </table>
+       </div>
+      {%elif x[k][1] in title and x[k][1] =='surrounding_hydrophobicity' %}
+         <div style="overflow:scroll;height:50em;margin:3rem;"> 
+           <table id='flow' style="margin:10px;padding: 5px;">
+            <caption style="font-size: 25px;position: sticky;">{{x[k][1]}}</caption>
+            <tr>
+              <th>Residue Name</th>
+              <th>Residue Number</th>
+              <th>Chain</th>
+              <th>Order</th>
+            </tr>
+
+         {% for i in x[k][0] %}
+          <tr>
+            <td>{{i[0]}}</td>
+            {%if i[1] in a %}
+            <td style="background-color: hotpink;font-weight:900;">{{i[1]}}</td>
+          {%elif i[1] in b %}
+            <td style="background-color: rgb(124, 252, 0);font-weight:900;">{{i[1]}}</td>
+          {%else%}
+            <td style="background-color: peru;font-weight:900;">{{i[1]}}</td>
+          {%endif%}
+            <td>{{'A'}}</td>
+            <td>{{i[2]}}</td>
+          </tr>
+         {%endfor%}
+         </table>
+       </div>
+      {%endif%}
+     {%endfor%}
+    {%elif r =='m-m'%}
+     {% for k in range(0,x|length) %}
+      <!--<button class='dropdwn' onclick="toggle()">{{title[k]}}</button>-->
+      {% if x[k][1] in title and x[k][1] not in ['contact_order','long_range_order','surrounding_hydrophobicity']%}
+       <div style="overflow:scroll;height:50em;margin:3rem;"> 
+        <table id='flow' style="margin:10px;padding: 5px;">
+        {%if x[k][1]=='contacts'%}
+         <caption style="font-size: 25px;position: sticky;">{{x[k][1]}}---{{x[k][2]}}{{'A'+'\u00B0'}}</caption>
+        {%else%}
+         <caption style="font-size: 25px;position: sticky;">{{x[k][1]}}</caption>
+        {%endif%}
+         <tr>
+          <th>Residue Name</th>
+          <th>Residue Number</th>
+          {%if x[k][1]=='contacts'%}
+           <th>Chain</th>
+           <th>Number of Contacts</th>
+           <th>Contacts</th>
+          {%else%}
+           <th>Residue Name</th>
+           <th>Residue Number</th>
+           <th>Distance</th>
+          {%endif%}
+         </tr>
+        {% for i in x[k][0] %}
+          <tr>
+           {%if i[1] in b and i[3] in b and x[k][1] !='contacts'%}
+            <td>{{i[0]}}</td>
+          
+            <td style="background-color: rgb(124, 252, 0);font-weight:900;">{{i[1]}}</td>
+          
+            <td>{{i[2]}}</td>
+          
+            <td style="background-color:rgb(124, 252, 0);font-weight:900;">{{i[3]}}</td>
+
+            <td>{{i[4]}}</td>
+            
+           {%elif i[1] in b and x[k][1] =='contacts' %}
+            <td>{{i[0]}}</td>
+          
+            <td style="background-color: rgb(124, 252, 0);font-weight:900;">{{i[1]}}</td>
+          
+            <td>{{i[2]}}</td>
+          
+            <td>{{i[3]}}</td>
+            <td>{{i[4]}}</td>
+           {%endif%}
+          </tr>
+        {%endfor%}
+        </table>
+       </div>
+      
+      {% elif x[k][1] in title and x[k][1] =='contact_order' %}
+         <div style="text-align: center;font-size: 25px;">
+           <p>{{x[k][1]}}</p>
+           <p>{{x[k][0]}}</p>
+         </div>
+      {%elif x[k][1] in title and x[k][1] =='long_range_order'%}
+         <div style="overflow:scroll;height:50em;margin:3rem;"> 
+           <table id='flow' style="margin:10px;padding: 5px;">
+            <caption style="font-size: 25px;position: sticky;">{{x[k][1]}}----{{x[k][0][1]}}</caption>
+            <tr>
+              <th>Residue Name</th>
+              <th>Residue Number</th>
+              <th>Chain</th>
+              <th>Order</th>
+            </tr>
+
+
+         {% for i in x[k][0][0] %}
+            <tr>
+             {%if i[1] in b %}
+              <td>{{i[0]}}</td>
+             
+               <td style="background-color: rgb(124, 252, 0);font-weight:900;">{{i[1]}}</td>
+          
+             
+              <td>{{i[2]}}</td>
+              <td>{{i[3]}}</td>
+             {%endif%}
+           </tr>
+         {%endfor%}
+         </table>
+       </div>
+      {%elif x[k][1] in title and x[k][1] =='surrounding_hydrophobicity' %}
+         <div style="overflow:scroll;height:50em;margin:3rem;"> 
+           <table id='flow' style="margin:10px;padding: 5px;">
+            <caption style="font-size: 25px;position: sticky;">{{x[k][1]}}</caption>
+            <tr>
+              <th>Residue Name</th>
+              <th>Residue Number</th>
+              <th>Chain</th>
+              <th>Order</th>
+            </tr>
+
+         {% for i in x[k][0] %}
+          <tr>
+           {%if i[1] in b %}
+            <td>{{i[0]}}</td>
+            
+             <td style="background-color: rgb(124, 252, 0);font-weight:900;">{{i[1]}}</td>
+            
+            <td>{{'A'}}</td>
+            <td>{{i[2]}}</td>
+           {%endif%}
+          </tr>
+         {%endfor%}
+         </table>
+       </div>
+      {%endif%}
+     {%endfor%}
+    {%elif r =='m-e'%}
+     {% for k in range(0,x|length) %}
+      <!--<button class='dropdwn' onclick="toggle()">{{title[k]}}</button>-->
+      {% if x[k][1] in title and x[k][1] not in ['contact_order','long_range_order','surrounding_hydrophobicity']%}
+       <div style="overflow:scroll;height:50em;margin:3rem;"> 
+        <table id='flow' style="margin:10px;padding: 5px;">
+        {%if x[k][1]=='contacts'%}
+         <caption style="font-size: 25px;position: sticky;">{{x[k][1]}}---{{x[k][2]}}{{'A'+'\u00B0'}}</caption>
+        {%else%}
+         <caption style="font-size: 25px;position: sticky;">{{x[k][1]}}</caption>
+        {%endif%}
+         <tr>
+          <th>Residue Name</th>
+          <th>Residue Number</th>
+          {%if x[k][1]=='contacts'%}
+           <th>Chain</th>
+           <th>Number of Contacts</th>
+           <th>Contacts</th>
+          {%else%}
+           <th>Residue Name</th>
+           <th>Residue Number</th>
+           <th>Distance</th>
+          {%endif%}
+         </tr>
+        {% for i in x[k][0] %}
+          <tr>
+           {%if i[1] in b and i[3] in a or i[1] in a and i[3] in b  and x[k][1] !='contacts'%}
+            <td>{{i[0]}}</td>
+              {%if i[1] in b%}
+               <td style="background-color: rgb(124, 252, 0);font-weight:900;">{{i[1]}}</td>
+              {%elif i[1] in a%}
+               <td style="background-color: hotpink;font-weight:900;">{{i[1]}}</td>
+              {%endif%}
+            <td>{{i[2]}}</td>
+          
+              {%if i[3] in b%}
+               <td style="background-color: rgb(124, 252, 0);font-weight:900;">{{i[3]}}</td>
+              {%elif i[3] in a%}
+               <td style="background-color: hotpink;font-weight:900;">{{i[3]}}</td>
+              {%endif%}
+
+            <td>{{i[4]}}</td>
+            
+           {%elif i[1] in b or i[1] in a and x[k][1] =='contacts' %}
+            <td>{{i[0]}}</td>
+          
+            <td style="background-color: rgb(124, 252, 0);font-weight:900;">{{i[1]}}</td>
+          
+            <td>{{i[2]}}</td>
+          
+            <td>{{i[3]}}</td>
+            <td>{{i[4]}}</td>
+           {%endif%}
+          </tr>
+        {%endfor%}
+        </table>
+       </div>
+      
+      {% elif x[k][1] in title and x[k][1] =='contact_order' %}
+         <div style="text-align: center;font-size: 25px;">
+           <p>{{x[k][1]}}</p>
+           <p>{{x[k][0]}}</p>
+         </div>
+      {%elif x[k][1] in title and x[k][1] =='long_range_order'%}
+         <div style="overflow:scroll;height:50em;margin:3rem;"> 
+           <table id='flow' style="margin:10px;padding: 5px;">
+            <caption style="font-size: 25px;position: sticky;">{{x[k][1]}}----{{x[k][0][1]}}</caption>
+            <tr>
+              <th>Residue Name</th>
+              <th>Residue Number</th>
+              <th>Chain</th>
+              <th>Order</th>
+            </tr>
+
+
+         {% for i in x[k][0][0] %}
+            <tr>
+             {%if i[1] in b %}
+              <td>{{i[0]}}</td>
+             
+               <td style="background-color: rgb(124, 252, 0);font-weight:900;">{{i[1]}}</td>
+          
+             
+              <td>{{i[2]}}</td>
+              <td>{{i[3]}}</td>
+             {%endif%}
+           </tr>
+         {%endfor%}
+         </table>
+       </div>
+      {%elif x[k][1] in title and x[k][1] =='surrounding_hydrophobicity' %}
+         <div style="overflow:scroll;height:50em;margin:3rem;"> 
+           <table id='flow' style="margin:10px;padding: 5px;">
+            <caption style="font-size: 25px;position: sticky;">{{x[k][1]}}</caption>
+            <tr>
+              <th>Residue Name</th>
+              <th>Residue Number</th>
+              <th>Chain</th>
+              <th>Order</th>
+            </tr>
+
+         {% for i in x[k][0] %}
+          <tr>
+           {%if i[1] in b %}
+            <td>{{i[0]}}</td>
+            
+             <td style="background-color: rgb(124, 252, 0);font-weight:900;">{{i[1]}}</td>
+            
+            <td>{{'A'}}</td>
+            <td>{{i[2]}}</td>
+           {%endif%}
+          </tr>
+         {%endfor%}
+         </table>
+       </div>
+      {%endif%}
+     {%endfor%}
+    {%endif%}
+ </div> 
+
+      
+     
+    <p>...........................................</p>
+    
+
+
+
+
+{% endblock %}

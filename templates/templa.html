@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type= "text/css" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+  <body>
+    <!--<button onclick="info()" style="margin-left: 50%;">Info</button>
+    <div id='info'><p>Helllllooooooo</p></div>-->
+  	<div class="container" id="container">
+
+      
+
+  	  <p>Protein Sequence:</p>
+  	  	
+      {% block content %}
+       {% endblock %}
+
+
+      <input type="button" value="Go back!" onclick="history.back()">
+      <input type="button" value="Reloads!" onclick="history.go(0)">
+      <script type="text/javascript">
+      	 function info() {
+              var x = document.getElementById("info");
+              var y = document.getElementById("container");
+              if (x.style.display=="none"){
+                x.style.display="block"
+                y.style.display="none"
+              }
+              else {
+                x.style.display="none"
+                y.style.display="block"
+              }
+
+      	 }
+
+
+      </script>
+    </div>
+  </body>
+ </html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type= "text/css" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+  <body>
+      <!--<div class='menubar' style="color:white;background-color:rgba(255,255,25,0.5);display: block; ">
+        <ul>
+          <li><button><a href='/'>Home</a></button></li>
+          <li><button>Compute</button></li>
+          <li><button><a href='first.html'>Features</a></button></li>
+          <li><button><a href='first.html'>Links</a></button></li>
+        </ul>
+
+
+      </div>-->
+      <div class="container">
+        <h1 class="logo" style="text-align:center;">Welcome to Transmembrane App!!!!!</h1>
+        <strong><nav>
+        
+         
+         
+         <p style="text-align: center;">Server is an online resource for computing several parameters from three dimensional structures of proteins.The parameters are generally classified into different themes and choose one of them to compute:</p>
+          <form method="post" action='/'>
+          	
+            
+           <div style="width:40%;height:100px;margin-left:40%;">
+            
+            <table>
+             <tr><td><input type="radio" value="residue contact" name="title"><label>Inter-residue Contact</td></tr>
+             
+             <tr><td><input type="radio" value="interactions" name="title"><label>Interactions</label></td></tr>
+             
+             <tr><td><input type="radio" value="Contact map" name="title"><label>Contact_Map</label></td></tr>
+             
+             <tr><td><input type="radio" value="Contact network" name="title"><label>Contact_Network</label></td></tr>
+             
+             <tr><td><input type="radio" value="Binding site" name="title"><label>Binding_Site</label></td></tr>
+             
+             <tr><td><input type="radio" value="Ramachandran Plot" name="title"><label>Ramachandran_Plot</label></td></tr><br>
+          	
+            <tr><td><input type='Submit' value='Submit!'></td></tr>
+
+            </table>
+           </div>
+          </form>
+            <!--<input type="radio" value="short_range" name="redirect"><label>short_range</label>
+            <input type="radio" value="medium_range" name="redirect"><label>medium_range</label>
+            <input type="radio" value="long_range" name="redirect"><label>long_range</label>
+            <input type="radio" value="contact_order" name="redirect"><label>contact_order</label>
+            <input type="radio" value="ionic_interaction" name="redirect"><label>ionic_interaction</label>
+            <input type='Submit' value='Submit!'>
+            <input type="button" value="Go back!" onclick="history.back()">
+            <input type="button" value="Reloads!" onclick="history.go(0)">
+          </form>-->
+         
+
+        </nav></strong>
+      </div>
+      
+      
+    <!--<div class="container">
+      {% block content %}
+      {% endblock %}
+    </div>-->
+    
+    
+
+
+
+     
+  </body>
+</html>
