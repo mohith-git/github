@@ -759,7 +759,7 @@ def medium_range():
         t = request.args.getlist('titles')
 
         f = request.args['file']
-          
+        region = request.args['reg']
         
 
 
