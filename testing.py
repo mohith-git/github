@@ -19,14 +19,7 @@ from plotly.graph_objs import Scatter
 import plotly.express as px
 import os
 import pandas as pd
-import argparse
-import json
-import requests
-import time
-import numpy as np
-import matplotlib.pyplot as plt
-from scipy import stats
-from scipy.stats import gaussian_kde
+
 STATIC_DIR = os.path.abspath(r'C:\Users\MOHITHTHAMANA\Desktop\Transmembrane\static')
 app = Flask(__name__,static_folder=STATIC_DIR)
 app = Flask(__name__)
