@@ -5,6 +5,13 @@ Created on Tue Jun 21 16:10:15 2022
 @author: MOHITHTHAMANA
 """
 
+# -*- coding: utf-8 -*-
+"""
+Created on Tue Jun 21 16:10:15 2022
+
+@author: MOHITHTHAMANA
+"""
+
 from flask import Flask, redirect, url_for, render_template, request, Markup
 import numpy as np
 from plotly.offline import plot
@@ -12,6 +19,14 @@ from plotly.graph_objs import Scatter
 import plotly.express as px
 import os
 import pandas as pd
+import argparse
+import json
+import requests
+import time
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy import stats
+from scipy.stats import gaussian_kde
 STATIC_DIR = os.path.abspath(r'C:\Users\MOHITHTHAMANA\Desktop\Transmembrane\static')
 app = Flask(__name__,static_folder=STATIC_DIR)
 app = Flask(__name__)
@@ -665,9 +680,25 @@ def c_m(f):
         return [x,y,z]
 
    
+def c_n(f):
+        x=[]
+        y=[]
+        z=[]
+        fi = read_file(f)
+        xa=[]
+        
+        for i in fi:
+            aa=i.split()
+            if aa[0]=='ATOM' and aa[4]=='A' and aa[2]=='CA':
+                xa.append(aa)
+            if aa[0] == 'MODEL' and aa[1] == '2':
+                break
+        for i in xa:
+            x.append(float(i[6]))
+            y.append(float(i[7]))
+            z.append(float(i[8]))
 
-
-
+        return [x,y,z]
 
 
 
@@ -710,22 +741,24 @@ def home():
 #       cpi=c.Cation_pi()
       base = (request.form.getlist('redirect'))
 
-      
+      print(base)
 
       #for i in base:
             
-      if base[0] in ['short_range','medium_range','long_range','contact_order','long_range_order','surrounding_hydrophobicity','contacts','all_residue_contacts']:
+      if base[0] in ['short range','medium range','long range','contact order','long range order','surrounding hydrophobicity','contacts']:
                 if cutoff:
                 #return redirect(url_for(i)+str(f)+'/'+str(cutoff[0])+'/'+str(cutoff[1]))
                    return redirect(url_for('short_range',file=f,titles=base,cut =float(cutoff),reg = reg))
                 else:
                     return redirect(url_for('short_range',file=f,titles=base,cut=8,reg = reg))
-      elif base[0] in ['ionic_interaction', 'disulphide_interaction', 'hydrophobic_interaction', 'cation_pi_interaction', 'aromatic_aromatic_interaction', 'mmch', 'msch', 'ssch',"all_residue_interaction"]:
+      elif base[0] in ['ionic interaction', 'disulphide interaction', 'hydrophobic interaction', 'cation pi interaction', 'aromatic aromatic interaction', 'mmch', 'msch', 'ssch']:
                 return redirect(url_for('medium_range',file=f,titles=base,reg = reg))
                
-      elif base[0] == 'contact_map':
+      elif base[0] == 'contact map':
                 return redirect(url_for('contact_map',file=f))
       
+      elif base[0] == 'contact network':
+                return redirect(url_for('contact_network',file=f))
 
     
 
@@ -748,7 +781,7 @@ def short_range():
           
          
           
-          return render_template('sr.html',x=[(Short_range(f),'short_range'),(Medium_range(f),'medium_range'),(Long_range(f),'long_range'),(Contact_Order(f),'contact_order'),(LRO(f),'long_range_order'),(Surr_Hydrophob(f),'surrounding_hydrophobicity'),(A8(f,cu),'contacts',cu)],a=Regions(f)[0],b=Regions(f)[1],c=Regions(f)[2],d=Regions(f)[3],title = t,r= region)
+          return render_template('sr.html',x=[(Short_range(f),'short range'),(Medium_range(f),'medium range'),(Long_range(f),'long range'),(Contact_Order(f),'contact order'),(LRO(f),'long range order'),(Surr_Hydrophob(f),'surrounding hydrophobicity'),(A8(f,cu),'contacts',cu)],a=Regions(f)[0],b=Regions(f)[1],c=Regions(f)[2],d=Regions(f)[3],title = t,r= region)
           
             
 @app.route("/mr/")
@@ -763,7 +796,7 @@ def medium_range():
         
 
 
-        return render_template('mr.html',x=[(Ionic_Interaction(f),'ionic_interaction'),(Hydrophobic_interaction(f),'hydrophobic_interaction'),(Cation_pi(f),'cation_pi_interaction'),(Disulphide_interaction(f),'disulphide_interaction'),(Aromatic_Aromatic(f),'aromatic_aromatic_interaction'),('A')],a=Regions(f)[0],b=Regions(f)[1],c=Regions(f)[2],d=Regions(f)[3],title = t,r= region)
+        return render_template('mr.html',x=[(Ionic_Interaction(f),'ionic interaction'),(Hydrophobic_interaction(f),'hydrophobic interaction'),(Cation_pi(f),'cation pi interaction'),(Disulphide_interaction(f),'disulphide interaction'),(Aromatic_Aromatic(f),'aromatic aromatic interaction'),('A')],a=Regions(f)[0],b=Regions(f)[1],c=Regions(f)[2],d=Regions(f)[3],title = t,r= region)
 
 
 @app.route("/cmap/")
@@ -772,13 +805,23 @@ def contact_map():
      f = request.args['file']
      cm = c_m(f)
      cm = pd.DataFrame({'Aminoacid-x':cm[0],'Aminoacid-y':cm[1],'dist':cm[2]})
-     fig = px.scatter(cm,x='Aminoacid-x',y='Aminoacid-y',color ='dist',opacity=0.3,color_continuous_scale=px.colors.sequential.Hot,title='Contact Map-----{}'.format(f),template='plotly_dark',width=750,height=550)
+     fig = px.scatter(cm,x='Aminoacid-x',y='Aminoacid-y',color ='dist',opacity=0.3,color_continuous_scale=px.colors.sequential.gray,title='Contact Map-----{}'.format(f),template='plotly_dark',width=750,height=550)
      
      my_plot_div = fig.to_html(full_html=True)
      #my_plot_div = plot([Scatter(x=cm[0], y=cm[1])],x='Amino_acid',y='Amino_acid', output_type='div')
-     return render_template('c_map.html',div_placeholder=Markup(my_plot_div),f=f,d=Regions(f)[3])
+     return render_template('c_map.html',div_placeholder=Markup(my_plot_div),f=f,a=Regions(f)[0],b=Regions(f)[1],c=Regions(f)[2],d=Regions(f)[3])
 
 
+@app.route("/cnet/")
+@app.route("/cnet/")
+def contact_network():
+     f = request.args['file']
+     cm = c_n(f)
+     cm = pd.DataFrame({'x':cm[0],'y':cm[1],'z':cm[2]})
+     fig = px.scatter_3d(cm,x='x',y='y',z='z')
+     my_plot_div = fig.to_html(full_html=True)
+     #my_plot_div = plot([Scatter(x=cm[0], y=cm[1])],x='Amino_acid',y='Amino_acid', output_type='div')
+     return render_template('c_net.html',div_placeholder=Markup(my_plot_div),f=f,d=Regions(f)[3])
 
 
 
