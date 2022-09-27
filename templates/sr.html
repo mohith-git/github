@@ -1,0 +1,251 @@
+{% extends "templa.html" %}
+{% block content %}
+
+ 
+
+
+<!-- Sequence Coloring -->
+
+ <div class='sr' style="height: 100px;width:70%;margin-left:15%;overflow: scroll;">
+    
+    {% for i in range(1,d|length) %}
+         {% if i|string() in a %}
+           {% if i%10==0 or i == d|length-1 %}
+             <span style="color:#E10600;font-weight:900;"><sup>{{i}}</sup>{{d[i]}}</span>
+           {%else%}
+             <span style="color:#E10600;font-weight:900;">{{d[i]}}</span>
+           {%endif%}
+         {% elif i|string() in b %}
+            {% if i%10==0 or i == d|length-1 %}
+             <span style="color:#1B4F72;font-weight:900;"><sup>{{i}}</sup>{{d[i]}}</span>
+            {%else%}
+             <span style="color:#1B4F72;font-weight:900;">{{d[i]}}</span>
+           {%endif%}
+         {%else%}
+            {% if i%10==0 or i == d|length-1 %}
+             <span style="color:yellow;font-weight:900;"><sup>{{i}}</sup>{{d[i]}}</span>
+            {%else%}
+             <span style="color:yellow;font-weight:900;">{{d[i]}}</span>
+           {%endif%}
+         {%endif%}
+       {%endfor%} 
+    
+ </div>
+
+
+
+
+
+
+
+
+    
+   <div id="test" style="margin-top:20px;">
+    
+     {% for k in range(0,x|length) %}
+      <!--<button class='dropdwn' onclick="toggle()">{{title[k]}}</button>-->
+      {% if x[k][1] in title and x[k][1] not in ['contact order','long range order','surrounding hydrophobicity']%}
+       <div style="overflow:scroll;height:50em;margin:3rem;"> 
+        <table id='flow' style="margin:10px;padding: 5px;">
+          {%if x[k][1]=='contacts'%}
+            <caption style="font-size: 35px;position: sticky;">{{x[k][1]|upper}}---{{x[k][2]}}{{'A'+'\u00B0'}}</caption>
+            <tr>
+             <th>Residue Name</th>
+             <th>Residue Number</th>
+             <th>Chain</th>
+             <th>Number of Contacts</th>
+             <th>Contacts</th>
+            </tr>
+           {% for i in x[k][0] %}
+            <tr>
+
+              <td>{{i[0]}}</td>
+             {%if i[1] in a %}
+              <td style="background-color: #E10600;font-weight:900;">{{i[1]}}</td>
+             {%elif i[1] in b %}
+              <td style="background-color: #1B4F72;font-weight:900;">{{i[1]}}</td>
+             {%else%}
+              <td style="background-color: yellow;font-weight:900;">{{i[1]}}</td>
+             {%endif%}
+              <td>{{i[2]}}</td>
+              <td>{{i[3]}}</td>
+              <td>{{i[4]}}</td>
+            </tr>
+           {%endfor%}
+          {%else%}
+         
+           <caption style="font-size: 35px;position: sticky;">{{x[k][1]|upper}}</caption>
+        
+         
+           <tr>
+            <th>Residue Name</th>
+            <th>Residue Number</th>
+            <th>Residue Name</th>
+            <th>Residue Number</th>
+            <th>Distance</th>
+          
+         
+           </tr>
+           {%if r=='all' %}
+             {% for i in x[k][0] %}
+          
+               <tr>
+
+               <td>{{i[0]}}</td>
+              {%if i[1] in a %}
+               <td style="background-color: #E10600;font-weight:900;">{{i[1]}}</td>
+              {%elif i[1] in b %}
+               <td style="background-color: #1B4F72;font-weight:900;">{{i[1]}}</td>
+              {%else%}
+               <td style="background-color: yellow;font-weight:900;">{{i[1]}}</td>
+              {%endif%}
+               <td>{{i[2]}}</td>
+              {%if i[3] in a %}
+               <td style="background-color:#E10600;font-weight:900;">{{i[3]}}</td>
+              {%elif i[3] in b %}
+               <td style="background-color: #1B4F72;font-weight:900;">{{i[3]}}</td>
+              {%else%}
+               <td style="background-color: yellow;font-weight:900;">{{i[3]}}</td>
+            
+              {%endif%}
+            
+               <td>{{i[4]}}</td>
+               </tr>
+             {%endfor%}
+           {%elif r=="m-m" %}
+            {% for i in x[k][0] %}
+              {%if i[1] in b and i[3] in b %}
+               <tr>
+
+                <td>{{i[0]}}</td>
+                <td style="background-color: #1B4F72;font-weight:900;">{{i[1]}}</td>
+                <td>{{i[2]}}</td>
+                <td style="background-color: #1B4F72;font-weight:900;">{{i[3]}}</td>
+                <td>{{i[4]}}</td>
+               </tr>
+              {%endif%}
+            {%endfor%}
+           {%elif r =="m-i" %}
+             {% for i in x[k][0] %}
+               {%if i[1] in b and i[3] in c or i[3] in c and i[1] in b %}
+                <tr>
+            
+                   <td>{{i[0]}}</td>
+                {%if i[1] in c %}
+                  <td style="background-color: yellow;font-weight:900;">{{i[1]}}</td>
+                {%elif i[1] in b %}
+                  <td style="background-color: #1B4F72;font-weight:900;">{{i[1]}}</td>
+                {%endif%}
+                  <td>{{i[2]}}</td>
+                {%if i[3] in c %}
+                  <td style="background-color:yellow;font-weight:900;">{{i[3]}}</td>
+                {%elif i[3] in b %}
+                  <td style="background-color: #1B4F72;font-weight:900;">{{i[3]}}</td>
+                {%endif%}
+            
+                  <td>{{i[4]}}</td>
+                </tr>
+               {%endif%}
+             {%endfor%}
+           {%else%}
+              {% for i in x[k][0] %}
+               {%if i[1] in a and i[3] in b or i[3] in b and i[1] in a %}
+                 <tr>
+            
+                  <td>{{i[0]}}</td>
+                {%if i[1] in a %}
+                  <td style="background-color: #E10600;font-weight:900;">{{i[1]}}</td>
+                {%elif i[1] in b %}
+                  <td style="background-color: #1B4F72;font-weight:900;">{{i[1]}}</td>
+                {%endif%}
+                  <td>{{i[2]}}</td>
+                {%if i[3] in a %}
+                  <td style="background-color:#E10600;font-weight:900;">{{i[3]}}</td>
+                {%elif i[3] in b %}
+                  <td style="background-color: #1B4F72;font-weight:900;">{{i[3]}}</td>
+                {%endif%}
+            
+                  <td>{{i[4]}}</td>
+                 </tr>
+               {%endif%}
+              {%endfor%}
+           {%endif%}
+        
+          {%endif%}
+        </table>
+       </div>
+      
+      {%elif x[k][1] in title and x[k][1] == 'contact order'%}
+         <div style="text-align: center;font-size: 35px;">
+          <p >{{x[k][1]|upper}}</p>
+          <p>{{x[k][0]}}</p>
+         </div>
+      {%elif x[k][1] in title and x[k][1] =='long range order'%}
+         <div style="overflow:scroll;height:50em;margin:3rem;"> 
+           <table id='flow' style="margin:10px;padding: 5px;">
+            <caption style="font-size: 35px;position: sticky;">{{x[k][1]|upper}}----{{x[k][0][1]}}</caption>
+            <tr>
+              <th>Residue Name</th>
+              <th>Residue Number</th>
+              <th>Chain</th>
+              <th>Order</th>
+            </tr>
+
+
+         {% for i in x[k][0][0] %}
+            <tr>
+             <td>{{i[0]}}</td>
+             {%if i[1] in a %}
+            <td style="background-color: #E10600;font-weight:900;">{{i[1]}}</td>
+          {%elif i[1] in b %}
+            <td style="background-color: #1B4F72;font-weight:900;">{{i[1]}}</td>
+          {%else%}
+            <td style="background-color: yellow;font-weight:900;">{{i[1]}}</td>
+          {%endif%}
+             <td>{{i[2]}}</td>
+             <td>{{i[3]}}</td>
+           </tr>
+         {%endfor%}
+         </table>
+       </div>
+      {%elif x[k][1] in title and x[k][1] =='surrounding hydrophobicity'%}
+         <div style="overflow:scroll;height:50em;margin:3rem;"> 
+           <table id='flow' style="margin:10px;padding: 5px;">
+            <caption style="font-size: 35px;position: sticky;">{{x[k][1]|upper}}</caption>
+            <tr>
+              <th>Residue Name</th>
+              <th>Residue Number</th>
+              <th>Chain</th>
+              <th>Order</th>
+            </tr>
+
+         {% for i in x[k][0] %}
+          <tr>
+            <td>{{i[0]}}</td>
+            {%if i[1] in a %}
+            <td style="background-color: #E10600;font-weight:900;">{{i[1]}}</td>
+          {%elif i[1] in b %}
+            <td style="background-color: #1B4F72;font-weight:900;">{{i[1]}}</td>
+          {%else%}
+            <td style="background-color: yellow;font-weight:900;">{{i[1]}}</td>
+          {%endif%}
+            <td>{{'A'}}</td>
+            <td>{{i[2]}}</td>
+          </tr>
+         {%endfor%}
+         </table>
+       </div>
+      {%endif%}
+     {%endfor%}
+    
+ </div> 
+
+      
+     
+    <p>...........................................</p>
+    
+
+
+
+
+{% endblock %}
