@@ -1,0 +1,21 @@
+{% extends "templa.html" %}
+{% block content %}
+
+   {% for i in range(0,d|length) %}
+         {% if i|string() in a %}
+          <span style="color:hotpink;font-weight:900;font-size:15px; ">{{d[i]}}</span>
+         {% elif i|string() in b %}
+          <span style="color:rgb(124, 252, 0);font-weight:900;font-size:15px; ">{{d[i]}}</span>
+         {%else%}
+          <span style="color:peru;font-weight:900;font-size:15px; ">{{d[i]}}</span>
+         {%endif%}
+       {%endfor%} 
+
+
+
+    <div class="map" id="map">
+      <div>
+      {{div_placeholder}}
+      </div>
+    </div>
+ {% endblock %}
