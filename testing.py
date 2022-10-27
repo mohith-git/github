@@ -16,9 +16,6 @@ import argparse
 import json
 import requests
 import time
-from scipy import stats
-from scipy.stats import gaussian_kde
-import matplotlib.pyplot as plt
 import plotly.figure_factory as ff
 
 STATIC_DIR = os.path.abspath(r'C:\Users\MOHITHTHAMANA\Desktop\Transmembrane\static')
