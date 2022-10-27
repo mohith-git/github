@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% block content %}
+   <div class="cd">
+    <h3>Contact Degree</h3>
+     <div id='test'> 
+      <table id='flow'>
+      
+    	 <tr>
+    	<th>Residue Name</th>
+    	<th>Residue Number</th>
+        <th>Contacts</th>
+    	 </tr>
+    	{%for i in y%}
+    	  <tr>
+    	  	<td>{{i[0][0]}}</td>
+    	  	<td>{{i[0][1]}}</td>
+    	  	<td>{{i[1]}}</td>
+    	  </tr>
+        {%endfor%}
+       </table>
+      </div>
+   
+    <p>...........................................</p>
+  </div>
+{% endblock %}
