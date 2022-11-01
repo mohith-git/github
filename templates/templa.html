@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type= "text/css" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+  <body>
+    <!--<button onclick="info()" style="margin-left: 50%;">Info</button>
+    <div id='info'><p>Helllllooooooo</p></div>-->
+    <div class='menu' style="display: block;height: 5%;background-color: brown;margin-bottom: 20px;font-size: 25px;">
+        <ul>
+          <li><a href='/'>Home</a></li>
+          <li><a>Compute</a></li>
+          <li><a href='#'>Tutorial</a></li>
+          <li><a href='#'>About</a></li>
+          <li><a href='#'>Links</a></li>
+
+        </ul>
+        <!--<input type="button" name="Home" value="Home" style="width:50px;display: inline-block;">
+        <input type="button" name="Compute" value="Compute" style="width:50px;display: inline-block;">
+        <input type="button" name="Tutorial" value="Tutorial" style="width:50px;display: inline-block;" >
+        <input type="button" name="About" value="About" style="width:50px;display: inline-block;">
+        <input type="button" name="Links" value="Links" style="width:50px;display: inline-block;">-->
+      </div>
+  	<div class="container" id="container" style="height:100vh;font-size: 20px;">
+
+      
+
+  	  
+      <br>
+      <br>
+      <br>
+  	  	
+      {% block content %}
+       {% endblock %}
+
+
+      <input type='Submit' value='Submit' style="font-size:30px;border-radius: 10px;">
+             <input type="button" value="Go back" onclick="history.back()" style="font-size:30px;border-radius: 10px;">
+      <script type="text/javascript">
+      	 function info() {
+              var x = document.getElementById("info");
+              var y = document.getElementById("container");
+              if (x.style.display=="none"){
+                x.style.display="block"
+                y.style.display="none"
+              }
+              else {
+                x.style.display="none"
+                y.style.display="block"
+              }
+
+      	 }
+
+
+      </script>
+    </div>
+  </body>
+ </html>
