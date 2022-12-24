@@ -753,7 +753,7 @@ def first():
        else:
         return render_template('layout.html',x = title,y=f,z=cut)
        #return redirect(url_for('home',titles=title))
-     return render_template('index.html')
+     return render_template('first.html')
 
 
 
@@ -887,84 +887,6 @@ def contact_network():
      #my_plot_div = plot([Scatter(x=cm[0], y=cm[1])],x='Amino_acid',y='Amino_acid', output_type='div')
      return render_template('c_net.html',div_placeholder=Markup(my_plot_div),f=f,d=Regions(f)[3])
 
-@app.route("/ram_plot/")
-@app.route("/ram_plot/")
-def ramachandran_plot():
-    f = request.args['file']
-    sequ = ['']
-    for i in Regions(f)[3]:
-            if i !='\n':
-              sequ.append(i)
-    result = pdb_to_hssp(r'C:/Users/Dell/Desktop/Transmembrane/pdbf/{}.pdb'.format(f), 'https://www3.cmbi.umcn.nl/xssp/')
-    
-    l=result.splitlines()
-    final=[]
-    for i in l:
-        k=''
-        for j in i:
-            if j=='-':
-                k=k+' '+'-'
-            else:
-                k=k+j
-        final.append(k.split())
-    i=0
-    while i<len(final):
-        if final[i][1]=='RESIDUE':
-            k=i
-        i=i+1
-    
-    phi=[]
-    psi=[]
-    for i in range(k+1,len(final)):
-        if -180<=float(final[i][-4])<=180:
-            psi.append(float(final[i][-4]))
-        elif 360>=float(final[i][-4])>180:
-            psi.append(float(final[i][-4])-360)
-        elif -360<=float(final[i][-4])<-180:
-            psi.append(360+final[i][-4])
-        else:
-            pass
-        if -180<=float(final[i][-5])<=180:
-            phi.append(float(final[i][-5]))
-        elif 360>=float(final[i][-5])>180:
-            phi.append(float(final[i][-5])-360)
-        elif -360<=float(final[i][-5])<-180:
-            phi.append(float(final[i][-5])+360)
-        else:
-            pass
-        #rama_preferences = {
-        #"General": {
-         #   "file": "rama500-general.data",
-          #  "cmap":mpl.colors.ListedColormap(['#FFFFFF', '#B3E8FF', '#7FD9FF']),
-           # "bounds": [0, 0.0005, 0.02, 1],
-        #}
-        #}
-    
-    
-    
-    cm = pd.DataFrame({"\u03A6":phi,"\u03C6":psi})
-    
-    #fig = px.imshow(Z,color_continuous_scale=px.colors.sequential.Rainbow,labels=dict(x="\u03A6", y="\u03C6", color="Intensity"),title='Ramachandran Plot      {}'.format(f),template='plotly_dark',width=750,height=550)
-    #colorscale = ['#7A4579', '#D56073', 'rgb(236,158,105)', (1, 1, 0.2), (0.98,0.98,0.98)]
-
-    #fig = ff.create_2d_density(
-    #phi, psi, colorscale="Rainbow",
-    #point_size=3,title='Ramachandran Plot      {}'.format(f),width=750,height=550
-#)
-    fig = px.density_contour(cm,x="\u03A6", y="\u03C6",labels=dict(x="\u03A6", y="\u03C6"),title='Ramachandran Plot      {}'.format(f),color_discrete_sequence=px.colors.sequential.Blackbody,template='plotly_dark',width=750,height=550)
-    fig.update_traces(contours_showlabels=True, contours_coloring='fill')
-    fig.update_layout(
-    font_family="Courier New",
-    font_color="#66ff00",
-    font_size=25,
-    title_font_size=25,
-    legend_title_font_color="green",
-    
-)   
-
-    my_plot_div = fig.to_html(full_html=True)
-     #my_plot_div = plot([Scatter(x=cm[0], y=cm[1])],x='Amino_acid',y='Amino_acid', output_type='div')
-    return render_template('ram_plot.html',div_placeholder=Markup(my_plot_div),f=f,a=Regions(f)[0],b=Regions(f)[1],c=Regions(f)[2],d=sequ)
 
 
 @app.route("/b_site/")
