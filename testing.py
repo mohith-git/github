@@ -753,7 +753,7 @@ def first():
        else:
         return render_template('layout.html',x = title,y=f,z=cut)
        #return redirect(url_for('home',titles=title))
-     return render_template('first.html')
+     return render_template('index.html')
 
 
 
