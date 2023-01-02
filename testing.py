@@ -10,12 +10,15 @@ import numpy as np
 from plotly.offline import plot
 from plotly.graph_objs import Scatter
 import plotly.express as px
+import plotly.graph_objects as go
 import os
 import pandas as pd
 import argparse
 import json
 import requests
 import time
+
+import plotly.figure_factory as ff
 
 STATIC_DIR = os.path.abspath(r'C:\Users\MOHITHTHAMANA\Desktop\Transmembrane\static')
 app = Flask(__name__,static_folder=STATIC_DIR)
@@ -39,12 +42,12 @@ def read_xml(f):
         tree = ET.parse(name)
         root = tree.getroot()
         for i in range(len(root)):
-            if 'CHAIN' in root[i].tag and root[i].attrib['CHAINID']=='A':
+            if 'CHAIN' in root[i].tag and root[i].attrib['CHAINID'] in ['A','P','M']:
                 for j in range(len(root[i])):
                     if j!=0:
                         seq_xml.append(root[i][j].attrib)
         for i in root:
-            if 'CHAIN' in i.tag and i.attrib['CHAINID']=='A':
+            if 'CHAIN' in i.tag and i.attrib['CHAINID'] in ['A','P','M']:
                for j in i:
                  if 'SEQ' in j.tag:
                      seq = ''.join(str(j.text).split(' '))
@@ -70,9 +73,9 @@ def arm_arm(f):
     fi = read_file(f) 
     for i in fi:
             aa=i.split()
-            if aa[0]=='ATOM' and aa[4]=='A' and aa[2] in ['CG','CD1','CD2','CE1','CE2','CZ'] and aa[3] in ['PHE','TYR']:
+            if aa[0]=='ATOM' and aa[4] in ['A','P','M'] and aa[2] in ['CG','CD1','CD2','CE1','CE2','CZ'] and aa[3] in ['PHE','TYR']:
                 aromatic.append(aa)
-            if aa[0]=='ATOM' and aa[4]=='A' and aa[2] in ['CD2','CZ2','CZ3','CE2','CE3','CH2'] and aa[3] in ['TRP']:
+            if aa[0]=='ATOM' and aa[4] in ['A','P','M'] and aa[2] in ['CD2','CZ2','CZ3','CE2','CE3','CH2'] and aa[3] in ['TRP']:
                 aromatic_trp.append(aa)
             if aa[0] == 'MODEL' and aa[1] == '2':
                 break
@@ -90,65 +93,86 @@ def arm_arm(f):
 
     return [arm,aromatic,aromatic_trp]
 
-def Short_range(f):
+def Short_range(f,cu):
         i1=0
+        # read the pdb file
         fi = read_file(f)
         xa=[]
         sr=[]
+        #
+        #Storing the x,y,z coordinates of C-alpha atoms of each residue 
         for i in fi:
             aa=i.split()
-            if aa[0]=='ATOM' and aa[4]=='A' and aa[2]=='CA':
+            if aa[0]=='ATOM' and aa[4] in ['A','P','M'] and aa[2]=='CA':
                 xa.append(aa)
             if aa[0] == 'MODEL' and aa[1] == '2':
                 break
+        #
+        #
         for i in xa:
             j1=0
             for j in xa:
+                #calculating distance between any two residue
                 d=distance_formula(i,j)
-                if 3.5<d**0.5<7 and [j[3],j[5],i[3],i[5],round(d**0.5,2)] not in sr and abs(i1-j1)<=2 :
+                #checking with corresponding conditions for short range contacts
+                if 0<d**0.5<float(cu) and [j[3],j[5],i[3],i[5],round(d**0.5,2)] not in sr and abs(i1-j1)<=2 :
                     sr.append([i[3],i[5],j[3],j[5],round(d**0.5,2)])
                 j1=j1+1
             i1=i1+1
         return sr
     
-def Medium_range(f):
+def Medium_range(f,cu):
         i1=0
+        # read the pdb file
         fi = read_file(f)
         xa=[]
         mr=[]
+        #
+        #Storing the x,y,z coordinates of C-alpha atoms of each residue 
         for i in fi:
             aa=i.split()
-            if aa[0]=='ATOM' and aa[4]=='A' and aa[2]=='CA':
+            if aa[0]=='ATOM' and aa[4] in ['A','P','M'] and aa[2]=='CA':
                 xa.append(aa)
             if aa[0] == 'MODEL' and aa[1] == '2':
                 break
+        #
+        # 
         for i in xa:
             j1=0
             for j in xa:
+                #calculating distance between any two residue
                 d=distance_formula(i,j)
-                if 3.5<d**0.5<7 and [j[3],j[5],i[3],i[5],round(d**0.5,2)] not in mr and 3<=abs(i1-j1)<=4 :
+                #checking with corresponding conditions for medium range contacts 
+                if 0<d**0.5<float(cu) and [j[3],j[5],i[3],i[5],round(d**0.5,2)] not in mr and 3<=abs(i1-j1)<=4 :
                     mr.append([i[3],i[5],j[3],j[5],round(d**0.5,2)])
                 j1=j1+1
             i1=i1+1
         return mr
     
 
-def Long_range(f):
+def Long_range(f,cu):
         i1=0
+        # read the pdb file
         fi = read_file(f)
         xa=[]
         lr=[]
+        #
+        #Storing the x,y,z coordinates of C-alpha atoms of each residue 
         for i in fi:
             aa=i.split()
-            if aa[0]=='ATOM' and aa[4]=='A' and aa[2]=='CA':
+            if aa[0]=='ATOM' and aa[4] in ['A','P','M'] and aa[2]=='CA':
                 xa.append(aa)
             if aa[0] == 'MODEL' and aa[1] == '2':
                 break
+        #
+        # 
         for i in xa:
             j1=0
             for j in xa:
+                #calculating distance between any two residue
                 d=distance_formula(i,j)
-                if 3.5<d**0.5<7 and [j[3],j[5],i[3],i[5],round(d**0.5,2)] not in lr and abs(i1-j1)>5 :
+                #checking with corresponding conditions for long range contacts
+                if 0<d**0.5<float(cu) and [j[3],j[5],i[3],i[5],round(d**0.5,2)] not in lr and abs(i1-j1)>5 :
                     lr.append([i[3],i[5],j[3],j[5],round(d**0.5,2)])
                 j1=j1+1
             i1=i1+1
@@ -156,59 +180,72 @@ def Long_range(f):
 
 def LRO(f):
         i1=0
+        # read the pdb file
         fi = read_file(f)
         xa=[]
         lro = []
         res=[]
+        #
+        #Storing the x,y,z coordinates of C-alpha atoms of each residue 
         for i in fi:
             aa=i.split()
-            if aa[0]=='ATOM' and aa[4]=='A' and aa[2]=='CA':
+            if aa[0]=='ATOM' and aa[4] in ['A','P','M'] and aa[2]=='CA':
                 xa.append(aa)
             if aa[0] == 'MODEL' and aa[1] == '2':
                 break
         
+
         for i in range(len(xa)):
             
             s=0
             for j in range(i,len(xa)):
+                #calculating distance between any two residue
                 d=distance_formula(xa[i],xa[j])
+                # Applying the distance cutoff to 8 angstorms and residue number separation more than 12 in number
                 if d**0.5<8 and abs(i-j)>12 :
+                    #summation over total length of the protein
                     s=s+(1/len(xa))
                 
             lro.append(s)
             res.append([xa[i][3],xa[i][5],'A',round(s,3)])
             
-        #print(len(res),len(lro),sum(lro))
+        #output LRO for each residue , Total LRO 
         return res,round(sum(lro),3)
     
     
     
 def Contact_Order(f):
         i1=0
+        # read the pdb file
         fi = read_file(f)
         xa=[]
         
         l = 0
         summ=0
+        #
+        #Storing the x,y,z coordinates of C-alpha atoms of each residue
         for i in fi:
             aa=i.split()
-            if aa[0]=='ATOM' and aa[4] =='A' and aa[2]=='CA':
+            if aa[0]=='ATOM' and aa[4] in ['A','P','M'] and aa[2]=='CA':
                 xa.append(aa)
             if aa[0] == 'MODEL' and aa[1] == '2':
                 break
         
-        
+        #
+        #calculating the Contact Order
         c_order = 0
         for i in range(len(xa)):
           
           
           for j in range(i,len(xa)):
+            #calculating distance between any two residue
             d=distance_formula(xa[i],xa[j])
+            # Applying the distance cutoff to 6 angstorms and summation over the residue number separation
             if d**0.5<6 and i!=j:
                 l=l+1
                 c_order=c_order+(abs(i-j))
           
-          
+        # Contact Order = Summation / ((Total no of contacts) * (Length of the Protein))
         return((c_order)/(len(xa)*l))
 
 
@@ -221,7 +258,7 @@ def A8(f,inp,a):
         
         for i in fi:
             aa=i.split()
-            if aa[0]=='ATOM' and aa[4]=='A' and aa[2]==a:
+            if aa[0]=='ATOM' and aa[4] in ['A','P','M'] and aa[2]==a:
                 xa.append(aa)
             if aa[0] == 'MODEL' and aa[1] == '2':
                 break
@@ -296,7 +333,7 @@ def Disulphide_interaction(f):
         cys1,cys = [],[]
         for i in fi:
             aa=i.split()
-            if aa[0]=='ATOM' and aa[4]=='A' and aa[2]=='SG':
+            if aa[0]=='ATOM' and aa[4] in ['A','P','M'] and aa[2]=='SG':
                 cys1.append(aa)
             if aa[0] == 'MODEL' and aa[1] == '2':
                 break
@@ -322,7 +359,7 @@ def Hydrophobic_interaction(f):
         i1=0
         for i in fi:
             aa=i.split()
-            if aa[0]=='ATOM' and aa[4]=='A' and aa[2]=='CB':
+            if aa[0]=='ATOM' and aa[4] in ['A','P','M'] and aa[2]=='CB':
                 xb.append(aa)
             if aa[0] == 'MODEL' and aa[1] == '2':
                 break
@@ -346,7 +383,7 @@ def Cation_pi(f):
         cation = []
         for i in fi:
             aa=i.split()
-            if aa[0]=='ATOM' and aa[4]=='A' and aa[2] in ['NH1','NH2','NZ','ND1','NE2'] and aa[3] in ['ARG','LYS','HIS']:
+            if aa[0]=='ATOM' and aa[4] in ['A','P','M'] and aa[2] in ['NH1','NH2','NZ','ND1','NE2'] and aa[3] in ['ARG','LYS','HIS']:
                 cation.append(aa)
             if aa[0] == 'MODEL' and aa[1] == '2':
                 break  
@@ -498,9 +535,9 @@ def Ionic_Interaction(f):
         cation,anion=[],[]
         for i in fi:
             aa=i.split()
-            if aa[0]=='ATOM' and aa[4]=='A' and aa[2] in ['NH1','NH2','NZ','ND1','NE2'] and aa[3] in ['ARG','LYS','HIS']:
+            if aa[0]=='ATOM' and aa[4] in ['A','P','M'] and aa[2] in ['NH1','NH2','NZ','ND1','NE2'] and aa[3] in ['ARG','LYS','HIS']:
                 cation.append(aa)
-            if aa[0]=='ATOM' and aa[4]=='A' and aa[2] in ['OE2','OE1','OD1','OD2'] and aa[3] in ['ASP','GLU']:
+            if aa[0]=='ATOM' and aa[4] in ['A','P','M'] and aa[2] in ['OE2','OE1','OD1','OD2'] and aa[3] in ['ASP','GLU']:
                 anion.append(aa)
             if aa[0] == 'MODEL' and aa[1] == '2':
                 break  
@@ -522,20 +559,27 @@ def Ionic_Interaction(f):
         return(ion)
     
 def Surr_Hydrophob(f):
-        
+         # read the pdb file
          fi = read_file(f)
          xa=[]
-        
+         
+         #
+         #Storing the x,y,z coordinates of C-alpha atoms of each residue
          for i in fi:
              aa=i.split()
-             if aa[0]=='ATOM' and aa[4]=='A' and aa[2]=='CA':
+             if aa[0]=='ATOM' and aa[4] in ['A','P','M'] and aa[2]=='CA':
                  xa.append(aa)
              if aa[0] == 'MODEL' and aa[1] == '2':
                  break
+         #
+         #
+         # Hydrophobicity index (kcal/mol) given by Tanford and Jones (1971) 
          hydro_index = {'ALA': 0.87 , 'ASP': 0.66, 'CYS': 1.52, 'GLU': 0.67, 'PHE': 2.87 , 'GLY':0.1, 'HIS': 0.87, 'ILE': 3.15,
                    'LYS': 1.64, 'LEU': 2.17,'MET':1.67 ,'ASN': 0.09,'PRO': 2.77,'GLN': 0 ,'ARG':0.85, 'SER': 0.07,
                    'THR':0.07, 'VAL':1.87, 'TRP': 3.77, 'TYR': 2.67}
-        
+         #
+         #
+         #
          surr = []
         
          i1=0
@@ -544,10 +588,14 @@ def Surr_Hydrophob(f):
              interact = []
              score = 0
              for j in xa:
+                 #calculating distance between any two residue
                  d=distance_formula(i,j)
                  if 0<d**0.5<8:
+                     #Storing the interacting residues using a standard cutoff distance of 8 Angstorms
                      interact.append(j[3])
-                
+             #
+             #
+             # Surrounding Hydrophobicity = summation (total number of surrounding residues of type j around ith residue of the protein * hydrophobicity index of ith residue)  
              for k in set(interact):
                     if len(k)==4:
                      score+=(interact.count(k)*hydro_index[k[1:]])
@@ -600,7 +648,7 @@ def c_m(f):
         
         for i in fi:
             aa=i.split()
-            if aa[0]=='ATOM' and aa[4]=='A' and aa[2]=='CA':
+            if aa[0]=='ATOM' and aa[4] in ['A','P','M'] and aa[2]=='CA':
                 xa.append(aa)
             if aa[0] == 'MODEL' and aa[1] == '2':
                 break
@@ -637,7 +685,7 @@ def c_n(f):
         
         for i in fi:
             aa=i.split()
-            if aa[0]=='ATOM' and aa[4]=='A' and aa[2]=='CA':
+            if aa[0]=='ATOM' and aa[4] in ['A','P','M'] and aa[2]=='CA':
                 xa.append(aa)
             if aa[0] == 'MODEL' and aa[1] == '2':
                 break
@@ -824,8 +872,8 @@ def short_range():
           for i in Regions(f)[3]:
             if i !='\n':
                sequ.append(i)
-          print(len(sequ))
-          return render_template('sr.html',x=[(Short_range(f),'short range'),(Medium_range(f),'medium range'),(Long_range(f),'long range'),(Contact_Order(f),'contact order'),(LRO(f),'long range order'),(Surr_Hydrophob(f),'surrounding hydrophobicity'),(A8(f,cu,ato),'contacts',cu)],a=Regions(f)[0],b=Regions(f)[1],c=Regions(f)[2],d=sequ,title = t,r= region)
+          print((sequ))
+          return render_template('sr.html',x=[(Short_range(f,cu),'short range'),(Medium_range(f,cu),'medium range'),(Long_range(f,cu),'long range'),(Contact_Order(f),'contact order'),(LRO(f),'long range order'),(Surr_Hydrophob(f),'surrounding hydrophobicity'),(A8(f,cu,ato),'contacts',cu)],a=Regions(f)[0],b=Regions(f)[1],c=Regions(f)[2],d=sequ,title = t,r= region)
           
             
 @app.route("/mr/")
@@ -876,91 +924,50 @@ def contact_map():
 @app.route("/cnet/")
 def contact_network():
      f = request.args['file']
+     sequ = [' ']
+     for i in Regions(f)[3]:
+        
+        if i !='\n':
+            sequ.append(i)
      cm = c_n(f)
-     cm = pd.DataFrame({'x':cm[0],'y':cm[1],'z':cm[2]})
-     fig = px.scatter_3d(cm,x='x',y='y',z='z')
+     #cm = pd.DataFrame({'x':cm[0],'y':cm[1],'z':cm[2]})
+     fig = go.Figure(data=go.Scatter3d(
+    x=cm[0], y=cm[1], z=cm[2],
+    marker=dict(
+        size=10,
+        color=cm[2],
+        colorscale='Viridis',
+    ),
+    line=dict(
+        color='darkblue',
+        width=1.5
+    )
+))
+     fig.update_layout(
+    width=800,
+    height=700,
+    autosize=False,
+    scene=dict(
+        camera=dict(
+            up=dict(
+                x=0,
+                y=0,
+                z=0
+            ),
+            eye=dict(
+                x=0,
+                y=1.0707,
+                z=1,
+            )
+        ),
+        aspectratio = dict( x=1, y=1, z=0.7 ),
+        aspectmode = 'manual'
+    ),
+)
      my_plot_div = fig.to_html(full_html=True)
      #my_plot_div = plot([Scatter(x=cm[0], y=cm[1])],x='Amino_acid',y='Amino_acid', output_type='div')
-     return render_template('c_net.html',div_placeholder=Markup(my_plot_div),f=f,d=Regions(f)[3])
+     return render_template('c_net.html',div_placeholder=Markup(my_plot_div),f=f,a=Regions(f)[0],b=Regions(f)[1],c=Regions(f)[2],d=sequ)
 
-@app.route("/ram_plot/")
-@app.route("/ram_plot/")
-def ramachandran_plot():
-    f = request.args['file']
-    sequ = ['']
-    for i in Regions(f)[3]:
-            if i !='\n':
-              sequ.append(i)
-    result = pdb_to_hssp(r'C:/Users/Dell/Desktop/Transmembrane/pdbf/{}.pdb'.format(f), 'https://www3.cmbi.umcn.nl/xssp/')
-    
-    l=result.splitlines()
-    final=[]
-    for i in l:
-        k=''
-        for j in i:
-            if j=='-':
-                k=k+' '+'-'
-            else:
-                k=k+j
-        final.append(k.split())
-    i=0
-    while i<len(final):
-        if final[i][1]=='RESIDUE':
-            k=i
-        i=i+1
-    
-    phi=[]
-    psi=[]
-    for i in range(k+1,len(final)):
-        if -180<=float(final[i][-4])<=180:
-            psi.append(float(final[i][-4]))
-        elif 360>=float(final[i][-4])>180:
-            psi.append(float(final[i][-4])-360)
-        elif -360<=float(final[i][-4])<-180:
-            psi.append(360+final[i][-4])
-        else:
-            pass
-        if -180<=float(final[i][-5])<=180:
-            phi.append(float(final[i][-5]))
-        elif 360>=float(final[i][-5])>180:
-            phi.append(float(final[i][-5])-360)
-        elif -360<=float(final[i][-5])<-180:
-            phi.append(float(final[i][-5])+360)
-        else:
-            pass
-        #rama_preferences = {
-        #"General": {
-         #   "file": "rama500-general.data",
-          #  "cmap":mpl.colors.ListedColormap(['#FFFFFF', '#B3E8FF', '#7FD9FF']),
-           # "bounds": [0, 0.0005, 0.02, 1],
-        #}
-        #}
-    
-    
-    
-    cm = pd.DataFrame({"\u03A6":phi,"\u03C6":psi})
-    
-    #fig = px.imshow(Z,color_continuous_scale=px.colors.sequential.Rainbow,labels=dict(x="\u03A6", y="\u03C6", color="Intensity"),title='Ramachandran Plot      {}'.format(f),template='plotly_dark',width=750,height=550)
-    #colorscale = ['#7A4579', '#D56073', 'rgb(236,158,105)', (1, 1, 0.2), (0.98,0.98,0.98)]
-
-    #fig = ff.create_2d_density(
-    #phi, psi, colorscale="Rainbow",
-    #point_size=3,title='Ramachandran Plot      {}'.format(f),width=750,height=550
-#)
-    fig = px.density_contour(cm,x="\u03A6", y="\u03C6",labels=dict(x="\u03A6", y="\u03C6"),title='Ramachandran Plot      {}'.format(f),color_discrete_sequence=px.colors.sequential.Blackbody,template='plotly_dark',width=750,height=550)
-    fig.update_traces(contours_showlabels=True, contours_coloring='fill')
-    fig.update_layout(
-    font_family="Courier New",
-    font_color="#66ff00",
-    font_size=25,
-    title_font_size=25,
-    legend_title_font_color="green",
-    
-)   
-
-    my_plot_div = fig.to_html(full_html=True)
-     #my_plot_div = plot([Scatter(x=cm[0], y=cm[1])],x='Amino_acid',y='Amino_acid', output_type='div')
-    return render_template('ram_plot.html',div_placeholder=Markup(my_plot_div),f=f,a=Regions(f)[0],b=Regions(f)[1],c=Regions(f)[2],d=sequ)
 
 
 @app.route("/b_site/")
