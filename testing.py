@@ -16,8 +16,6 @@ import argparse
 import json
 import requests
 import time
-import matplotlib.pyplot as plt
-import plotly.figure_factory as ff
 
 STATIC_DIR = os.path.abspath(r'C:\Users\MOHITHTHAMANA\Desktop\Transmembrane\static')
 app = Flask(__name__,static_folder=STATIC_DIR)
