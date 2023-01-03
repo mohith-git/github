@@ -246,7 +246,7 @@ def Contact_Order(f):
                 c_order=c_order+(abs(i-j))
           
         # Contact Order = Summation / ((Total no of contacts) * (Length of the Protein))
-        return((c_order)/(len(xa)*l))
+        return(round((c_order)/(len(xa)*l),2))
 
 
 
