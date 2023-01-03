@@ -88,14 +88,14 @@
                   <table id='prop' style="width:100%;border-width: 5px;border-color: black;">
                    <caption style="height:max-content;background-color:gray;text-align: center;">Inter-Residue Contact</caption>
                   
-                    <tr><td><input type="checkbox" value="ionic interaction" name="redirect">&nbsp;&nbsp;<label>IonicInteractions</label></td></tr>
+                    <tr><td><input type="checkbox" value="ionic interaction" name="redirect">&nbsp;&nbsp;<label>Ionic Interactions</label></td></tr>
                     <tr><td><input type="checkbox" value="disulphide interaction" name="redirect">&nbsp;&nbsp;<label>Disulphide Interactions</label></td></tr>
                      <tr><td><input type="checkbox" value="hydrophobic interaction" name="redirect">&nbsp;&nbsp;<label>Hydrophobic Interactions</label></td></tr>
                      <tr><td><input type="checkbox" value="cation pi interaction" name="redirect">&nbsp;&nbsp;<label>Cation &Pi; Interactions</label></td></tr>
                     <tr><td><input type="checkbox" value="aromatic aromatic interaction" name="redirect">&nbsp;&nbsp;<label>Aromatic-Aromatic Interactions</label></td></tr>
-                     <tr><td><input type="checkbox" value="mmch" name="redirect">&nbsp;&nbsp;<label>Main Chain Main Chain Hydrogen Interactions</label></td></tr>
-                    <tr><td><input type="checkbox" value="msch" name="redirect">&nbsp;&nbsp;<label>Main Chain Side Chain Hydrogen Interactions</label></td></tr>
-                    <tr><td><input type="checkbox" value="ssch" name="redirect">&nbsp;&nbsp;<label>Side Chain Side Chain Hydrogen Interactions</label></td></tr>
+                     <tr><td><input type="checkbox" value="mmch" name="redirect">&nbsp;&nbsp;<label>Main chain-Main chain Hydrogen Interactions</label></td></tr>
+                    <tr><td><input type="checkbox" value="msch" name="redirect">&nbsp;&nbsp;<label>Main chain-Side chain Hydrogen Interactions</label></td></tr>
+                    <tr><td><input type="checkbox" value="ssch" name="redirect">&nbsp;&nbsp;<label>Side chain-Side chain Hydrogen Interactions</label></td></tr>
                     <tr><td><input type="checkbox" onclick="selects()" name="all">&nbsp;&nbsp;<label>All</label></td></tr>
                   </table>
 
@@ -112,10 +112,10 @@
                   
                   <table id='prop' style="width:100%;border-width: 5px;border-color: black;">
                     <tr>
-                     <td>Chain 1:<input type='text'  name='b_s' style="font-size: 20px;" ></td>
-                     <td>Chain 2:<input type='text'  name='b_s' style="font-size: 20px;" ></td>
-                     <td>Distance Threshold:<input type='text'  name='b_s' style="font-size: 20px;" ></td>
-
+                     <td>Chain 1:<input type='text'  name='b_s' style="font-size: 25px;width: 50px;" ></td>
+                     <td>Chain 2:<input type='text'  name='b_s' style="font-size: 25px;width: 50px;" ></td>
+                     <td>Distance Threshold:&nbsp;&nbsp;<input type="number" step="0.1"  name='b_s' style="font-size: 25px;" >&nbsp;(&#197;)</td>
+                     
                    </tr>
 
                   </table>
@@ -128,7 +128,7 @@
              <br>
              <input type='Submit' value='Submit' style="font-size:30px;border-radius: 10px;">
              <input type="button" value="Go back" onclick="history.back()" style="font-size:30px;border-radius: 10px;">
-             <input type="button" value="Reloads" onclick="history.go(0)" style="font-size:30px;border-radius: 10px;">
+             <input type="button" value="Reload" onclick="history.go(0)" style="font-size:30px;border-radius: 10px;">
 
           </form>
          
