@@ -59,7 +59,7 @@
        <div style="overflow:auto;overflow-x: hidden;height:25em;margin:3rem;"> 
         <table id='flow' style="width:90%;">
           {%if x[k][1]=='contacts'%}
-         <caption style="font-size: 35px;position: sticky;">{{x[k][1]|upper}} <input value={{x[k][2]}}{{'A'+'\u00B0'}} readonly></input></caption>
+         <caption style="font-size: 35px;position: sticky;">{{x[k][1]|upper}} <input value={{x[k][2]}}{{'A'+'\u00B0'}} readonly style='font-size: 35px;'></input></caption>
             <tr>
              <th style="color: black;">Residue Name</th>
              <th style="color: black;">Residue Number</th>
@@ -194,7 +194,7 @@
       {%elif x[k][1] in title and x[k][1] =='long range order'%}
          <div style="overflow:auto;overflow-x: hidden;height:50em;margin:3rem;"> 
            <table id='flow' style="width:90%;">
-            <caption style="font-size: 35px;position: sticky;">{{x[k][1]|upper}}(LRO) <input value={{x[k][0][1]}} readonly></input></caption>
+            <caption style="font-size: 35px;position: sticky;">{{x[k][1]|upper}}(LRO) <input value={{x[k][0][1]}} readonly style='font-size: 35px;'></input></caption>
             <tr style="color: black;">
               <th style="color: black;">Residue Name</th>
               <th style="color: black;">Residue Number</th>
