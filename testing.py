@@ -681,6 +681,7 @@ def c_n(f):
         y=[]
         z=[]
         fi = read_file(f)
+        re = Regions(f)
         xa=[]
         
         for i in fi:
@@ -689,12 +690,36 @@ def c_n(f):
                 xa.append(aa)
             if aa[0] == 'MODEL' and aa[1] == '2':
                 break
+        # resid = []
+        # for i in xa:
+        #     x.append(float(i[6]))
+        #     y.append(float(i[7]))
+        #     z.append(float(i[8]))
+        #     resid.append(int(i[5]))
+            
+        # return [x,y,z,resid]
+        xe,xh,xi,x=[],[],[],[]
+        ye,yh,yi,y=[],[],[],[]
+        ze,zh,zi,z=[],[],[],[]
+        t=1
         for i in xa:
+            if str(t) in re[0]:
+                xe.append(float(i[6]))
+                ye.append(float(i[7]))
+                ze.append(float(i[8]))
+            elif str(t) in re[1]:
+                xh.append(float(i[6]))
+                yh.append(float(i[7]))
+                zh.append(float(i[8]))
+            else:
+                xi.append(float(i[6]))
+                yi.append(float(i[7]))
+                zi.append(float(i[8]))
             x.append(float(i[6]))
             y.append(float(i[7]))
             z.append(float(i[8]))
-
-        return [x,y,z]
+            t=t+1
+        return [[xe,xh,xi],[ye,yh,yi],[ze,zh,zi],x,y,z]
 
 def pdb_to_hssp(pdb_file_path, rest_url):
     # Read the pdb file data into a variable
@@ -923,7 +948,7 @@ def contact_map():
 @app.route("/cnet/")
 @app.route("/cnet/")
 def contact_network():
-     f = request.args['file']
+          f = request.args['file']
      sequ = [' ']
      for i in Regions(f)[3]:
         
@@ -931,43 +956,116 @@ def contact_network():
             sequ.append(i)
      cm = c_n(f)
      #cm = pd.DataFrame({'x':cm[0],'y':cm[1],'z':cm[2]})
-     fig = go.Figure(data=go.Scatter3d(
-    x=cm[0], y=cm[1], z=cm[2],
-    marker=dict(
-        size=10,
-        color=cm[2],
-        colorscale='Viridis',
-    ),
-    line=dict(
-        color='darkblue',
-        width=1.5
-    )
-))
-     fig.update_layout(
-    width=800,
-    height=700,
-    autosize=False,
-    scene=dict(
-        camera=dict(
-            up=dict(
-                x=0,
-                y=0,
-                z=0
-            ),
-            eye=dict(
-                x=0,
-                y=1.0707,
-                z=1,
-            )
-        ),
-        aspectratio = dict( x=1, y=1, z=0.7 ),
-        aspectmode = 'manual'
-    ),
+#      fig1 = go.Figure(data=go.Scatter3d(
+#     x=cm[0][0], y=cm[1][0], z=cm[2][0],
+#     marker=dict(
+#         size=10,
+#         color='black',
+        
+#     ),
+#     line=dict(
+#         color='darkblue',
+#         width=1.5
+#     )
+# ))
+#      fig2 = go.Figure(data=go.Scatter3d(
+#     x=cm[0][1], y=cm[1][1], z=cm[2][1],
+#     marker=dict(
+#         size=10,
+#         color='violet'
+#     ),
+#     line=dict(
+#         color='darkblue',
+#         width=1.5
+#     )
+# ))
+     fig = go.Figure(data=[go.Scatter3d(
+    x=[cm[3][0]], y=[cm[4][0]], z=[cm[5][0]],mode='markers',marker=dict(
+        size=17,
+        
+    ),name='Start'),go.Scatter3d(
+    x=[cm[3][len(cm[3])-1]], y=[cm[4][len(cm[4])-1]], z=[cm[5][len(cm[5])-1]],mode='markers',marker=dict(
+        size=17,
+        
+    ),name='End'),go.Scatter3d(
+    x=cm[0][0], y=cm[1][0], z=cm[2][0],mode='markers',marker=dict(
+        size=7,
+        color='yellow'
+    ),name='Exterior Region'),go.Scatter3d(
+    x=cm[0][1], y=cm[1][1], z=cm[2][1],mode='markers',marker=dict(
+        size=7,
+        color='cyan'
+    ),name='Membrane Region'),go.Scatter3d(
+    x=cm[0][2], y=cm[1][2], z=cm[2][2],mode='markers',marker=dict(
+        size=7,
+        color='orange'
+    ),name='Interior Region'),go.Scatter3d(
+    x=cm[3], y=cm[4], z=cm[5],mode='lines',line=dict(
+        width=3.5,
+        color='gray'
+    ),name='Peptide Bond')]
+   
+    
 )
+     
+     fig.update_layout(
+    
+    legend_font_size=15,
+    width=1000,
+    height=800,
+    autosize=False,
+    title={
+        'text': "Contact Network {}".format(f),
+        'y':0.95,
+        'x':0.5,
+        'xanchor': 'center',
+        'yanchor': 'top'
+        
+        },
+    font_color='lightgreen',
+    title_font_size=25,
+    title_font_color='red',
+    legend_font_color='black'
+
+,
+    scene=dict(
+        bgcolor='black',
+        
+    #     camera=dict(
+    #         up=dict(
+    #             x=0,
+    #             y=0,
+    #             z=0
+    #         ),
+    #         eye=dict(
+    #             x=0,
+    #             y=1.0707,
+    #             z=1,
+    #         ),
+        
+    #     )
+    # ),plot_bgcolor='black'
+    xaxis = dict(
+                                         backgroundcolor="rgba(0, 0, 0)",
+                                         gridcolor="white",
+                                         showbackground=True,
+                                         zerolinecolor="white",
+                                         ),
+                                    yaxis = dict(
+                                        backgroundcolor="rgba(0, 0, 0)",
+                                        gridcolor="white",
+                                        showbackground=True,
+                                        zerolinecolor="white"),
+                                    zaxis = dict(
+                                        backgroundcolor="rgba(0, 0, 0)",
+                                        gridcolor="white",
+                                        showbackground=True,
+                                        zerolinecolor="white"))
+)
+     
      my_plot_div = fig.to_html(full_html=True)
      #my_plot_div = plot([Scatter(x=cm[0], y=cm[1])],x='Amino_acid',y='Amino_acid', output_type='div')
      return render_template('c_net.html',div_placeholder=Markup(my_plot_div),f=f,a=Regions(f)[0],b=Regions(f)[1],c=Regions(f)[2],d=sequ)
-
 
 
 @app.route("/b_site/")
