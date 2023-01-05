@@ -948,7 +948,7 @@ def contact_map():
 @app.route("/cnet/")
 @app.route("/cnet/")
 def contact_network():
-          f = request.args['file']
+     f = request.args['file']
      sequ = [' ']
      for i in Regions(f)[3]:
         
