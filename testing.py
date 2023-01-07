@@ -950,12 +950,70 @@ def contact_map():
 @app.route("/cnet/")
 def contact_network():
      f = request.args['file']
+     cu = request.args['c']
      sequ = [' ']
      for i in Regions(f)[3]:
         
         if i !='\n':
             sequ.append(i)
      cm = c_n(f)
+     
+     #
+     i1=0
+        # read the pdb file
+     fi = read_file(f)
+     xa=[]
+     x,y,z=[],[],[]
+     x_j,y_j,z_j=[],[],[]
+        #
+        #Storing the x,y,z coordinates of C-alpha atoms of each residue 
+     for i in fi:
+            aa=i.split()
+            if aa[0]=='ATOM' and aa[4] in ['A','P','M'] and aa[2]=='CA':
+                xa.append(aa)
+            if aa[0] == 'MODEL' and aa[1] == '2':
+                break
+        #
+        # 
+     name = []
+     nam = []
+     for i in xa:
+            j1=0
+            for j in xa:
+                #calculating distance between any two residue
+                d=distance_formula(i,j)
+                #checking with corresponding conditions for medium range contacts 
+                if 0<d**0.5<float(cu) and [j[3],j[5],i[3],i[5]] not in name and 3<=abs(i1-j1)<=4 :
+                
+                      x.append([i[6],j[6]])
+                      y.append([i[7],j[7]])
+                      z.append([i[8],j[8]])
+                      name.append([i[3],i[5],j[3],j[5]])
+
+
+                j1=j1+1
+            i1=i1+1
+     
+
+         #
+     i1=0
+
+     for i in xa:
+            j1=0
+            for j in xa:
+                #calculating distance between any two residue
+                d=distance_formula(i,j)
+                #checking with corresponding conditions for medium range contacts 
+                if 0<d**0.5<float(cu) and [j[3],j[5],i[3],i[5]] not in name and abs(i1-j1)>5 :
+                
+                      x_j.append([i[6],j[6]])
+                      y_j.append([i[7],j[7]])
+                      z_j.append([i[8],j[8]])
+                      nam.append([i[3],i[5],j[3],j[5]])
+
+
+                j1=j1+1
+            i1=i1+1
      #cm = pd.DataFrame({'x':cm[0],'y':cm[1],'z':cm[2]})
 #      fig1 = go.Figure(data=go.Scatter3d(
 #     x=cm[0][0], y=cm[1][0], z=cm[2][0],
@@ -980,35 +1038,77 @@ def contact_network():
 #         width=1.5
 #     )
 # ))
-     fig = go.Figure(data=[go.Scatter3d(
+
+#important ---------------------------------------
+#      fig = go.Figure(data=[go.Scatter3d(
+#     x=[cm[3][0]], y=[cm[4][0]], z=[cm[5][0]],mode='markers',marker=dict(
+#         size=17,
+        
+#     ),name='Start'),go.Scatter3d(
+#     x=[cm[3][len(cm[3])-1]], y=[cm[4][len(cm[4])-1]], z=[cm[5][len(cm[5])-1]],mode='markers',marker=dict(
+#         size=17,
+        
+#     ),name='End'),go.Scatter3d(
+#     x=cm[0][0], y=cm[1][0], z=cm[2][0],mode='markers',marker=dict(
+#         size=7,
+#         color='yellow'
+#     ),name='Exterior Region'),go.Scatter3d(
+#     x=cm[0][1], y=cm[1][1], z=cm[2][1],mode='markers',marker=dict(
+#         size=7,
+#         color='cyan'
+#     ),name='Membrane Region'),go.Scatter3d(
+#     x=cm[0][2], y=cm[1][2], z=cm[2][2],mode='markers',marker=dict(
+#         size=7,
+#         color='orange'
+#     ),name='Interior Region'),go.Scatter3d(
+#     x=cm[3], y=cm[4], z=cm[5],mode='lines',line=dict(
+#         width=3.5,
+#         color='gray'
+#     ),name='Peptide Bond')]
+   
+    
+# )    ----------------------------------------------
+     
+     fig = go.Figure()
+     fig.add_trace(go.Scatter3d(
     x=[cm[3][0]], y=[cm[4][0]], z=[cm[5][0]],mode='markers',marker=dict(
         size=17,
         
-    ),name='Start'),go.Scatter3d(
+    ),name='Start'))
+     fig.add_trace(go.Scatter3d(
     x=[cm[3][len(cm[3])-1]], y=[cm[4][len(cm[4])-1]], z=[cm[5][len(cm[5])-1]],mode='markers',marker=dict(
         size=17,
         
-    ),name='End'),go.Scatter3d(
+    ),name='End'))
+     fig.add_trace(go.Scatter3d(
     x=cm[0][0], y=cm[1][0], z=cm[2][0],mode='markers',marker=dict(
         size=7,
         color='yellow'
-    ),name='Exterior Region'),go.Scatter3d(
+    ),name='Exterior Region'))
+     fig.add_trace(go.Scatter3d(
     x=cm[0][1], y=cm[1][1], z=cm[2][1],mode='markers',marker=dict(
         size=7,
         color='cyan'
-    ),name='Membrane Region'),go.Scatter3d(
+    ),name='Membrane Region'))
+     fig.add_trace(go.Scatter3d(
     x=cm[0][2], y=cm[1][2], z=cm[2][2],mode='markers',marker=dict(
         size=7,
         color='orange'
-    ),name='Interior Region'),go.Scatter3d(
-    x=cm[3], y=cm[4], z=cm[5],mode='lines',line=dict(
-        width=3.5,
-        color='gray'
-    ),name='Peptide Bond')]
-   
+    ),name='Interior Region'))
+     fig.add_trace(go.Scatter3d(
+    x=cm[3], y=cm[4], z=cm[5],mode='lines',line = dict(color='gray', width=4),name='Peptide Bond'))
+
+     for i in range(len(x)):
+        fig.add_trace(go.Scatter3d(
+     x=x[i], y=y[i], z=z[i],mode='lines',line = dict(color='firebrick', width=4, dash='dot'),name='{0}{1}-{2}{3}'.format(name[i][0],name[i][1],name[i][2],name[i][3])))
     
-)
+
+     for i in range(len(x_j)):
+        fig.add_trace(go.Scatter3d(
+     x=x_j[i], y=y_j[i], z=z_j[i],mode='lines',line = dict(color='royalblue', width=4, dash='dot'),name='{0}{1}-{2}{3}'.format(nam[i][0],nam[i][1],nam[i][2],nam[i][3])))
      
+
+
      fig.update_layout(
     
     legend_font_size=15,
