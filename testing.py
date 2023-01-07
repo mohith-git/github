@@ -395,8 +395,8 @@ def Cation_pi(f):
             j1=0
             for j in arm[0]:
                 d=(float(i[6])-j[2])**2+(float(i[7])-j[3])**2+(float(i[8])-j[4])**2
-                if 0<d**0.5<10 and [j[0],j[1],i[3],i[5],i[2],d**0.5] not in cpi:
-                    cpi.append([i[3],i[5],i[2],j[0],j[1],atom_ref[j[3]],round(d**0.5,2)])
+                if 0<d**0.5<10 and [atom_ref[j[0]],j[0],j[1],i[3],i[5],i[2],round(d**0.5,2)] not in cpi:
+                    cpi.append([i[3],i[5],i[2],j[0],j[1],atom_ref[j[0]],round(d**0.5,2)])
                 j1=j1+1
             i1=i1+1
         return((cpi))
