@@ -1083,29 +1083,29 @@ def contact_network():
      fig.add_trace(go.Scatter3d(
     x=cm[0][0], y=cm[1][0], z=cm[2][0],mode='markers',marker=dict(
         size=7,
-        color='yellow'
+        color='red'
     ),name='Exterior Region'))
      fig.add_trace(go.Scatter3d(
     x=cm[0][1], y=cm[1][1], z=cm[2][1],mode='markers',marker=dict(
         size=7,
-        color='cyan'
+        color='blue'
     ),name='Membrane Region'))
      fig.add_trace(go.Scatter3d(
     x=cm[0][2], y=cm[1][2], z=cm[2][2],mode='markers',marker=dict(
         size=7,
-        color='orange'
+        color='yellow'
     ),name='Interior Region'))
      fig.add_trace(go.Scatter3d(
-    x=cm[3], y=cm[4], z=cm[5],mode='lines',line = dict(color='gray', width=4),name='Peptide Bond'))
+    x=cm[3], y=cm[4], z=cm[5],mode='lines',line = dict(color='gray', width=2),name='Peptide Bond'))
 
      for i in range(len(x)):
         fig.add_trace(go.Scatter3d(
-     x=x[i], y=y[i], z=z[i],mode='lines',line = dict(color='firebrick', width=4, dash='dot'),name='{0}{1}-{2}{3}'.format(name[i][0],name[i][1],name[i][2],name[i][3])))
+     x=x[i], y=y[i], z=z[i],mode='lines',line = dict(color='yellow', width=4, dash='dot'),name='{0}{1}-{2}{3}'.format(name[i][0],name[i][1],name[i][2],name[i][3])))
     
 
      for i in range(len(x_j)):
         fig.add_trace(go.Scatter3d(
-     x=x_j[i], y=y_j[i], z=z_j[i],mode='lines',line = dict(color='royalblue', width=4, dash='dot'),name='{0}{1}-{2}{3}'.format(nam[i][0],nam[i][1],nam[i][2],nam[i][3])))
+     x=x_j[i], y=y_j[i], z=z_j[i],mode='lines',line = dict(color='green', width=4, dash='dot'),name='{0}{1}-{2}{3}'.format(nam[i][0],nam[i][1],nam[i][2],nam[i][3])))
      
 
 
