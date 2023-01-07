@@ -82,7 +82,7 @@
       <!--<button class='dropdwn' onclick="toggle()">{{title[k]}}</button>-->
       {% if x[k][1] in title and x[k][1] in ['ionic interaction','cation pi interaction']%}
        <div style="overflow:auto;overflow-x:hidden;height:25em;margin:3em;"> 
-        <table id='flow' style="margin:10px;padding: 5px;">
+        <table id='flow' style="margin:10px;padding: 5px;width:90%;">
          {%if x[k][1]=='cation pi interaction'%}
           <caption style="font-size: 35px;position: sticky;">CATION &Pi; INTERACTION</caption>
          {%else%} 
@@ -125,7 +125,7 @@
        </div>
       
       {%elif x[k][1] in title and x[k][1] not in ['ionic interaction','cation pi interaction']%}
-         <div style="overflow:auto;overflow-x:hidden;height:25em;margin:3rem;"> 
+         <div style="overflow:auto;overflow-x:hidden;height:25em;margin:3rem;width:90%;"> 
            <table id='flow' style="margin:10px;padding: 5px;">
 
             <caption style="font-size: 35px;position: sticky;">{{x[k][1]|upper}}</caption>
