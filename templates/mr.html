@@ -82,20 +82,20 @@
       <!--<button class='dropdwn' onclick="toggle()">{{title[k]}}</button>-->
       {% if x[k][1] in title and x[k][1] in ['ionic interaction','cation pi interaction']%}
        <div style="overflow:auto;overflow-x: hidden;height:25em;margin:3rem"> 
-        <table id='flow' style="margin:10px;padding: 5px;">
+        <table id='flow' style="width:75%;text-align: center;font-size: 20px;margin-left: 10%;">
          {%if x[k][1]=='cation pi interaction'%}
           <caption style="font-size: 35px;position: sticky;top:0;background-color: gray;">CATION &Pi; INTERACTIONS</caption>
          {%else%} 
           <caption style="font-size: 35px;position: sticky;top:0;background-color: gray;">{{x[k][1]|upper}}</caption>
          {%endif%}
          <tr style="color: black;">
-          <th style="color: black;">Residue Name</th>
-          <th style="color: black;">Residue Number</th>
-          <th style="color: black;">Atom</th>
-          <th style="color: black;">Residue Name</th>
-          <th style="color: black;">Residue Number</th>
-          <th style="color: black;">Atom</th>
-          <th style="color: black;">Distance</th>
+          <td style="color: black;">Residue Name</th>
+          <td style="color: black;">Residue Number</th>
+          <td style="color: black;">Atom</th>
+          <td style="color: black;">Residue Name</th>
+          <td style="color: black;">Residue Number</th>
+          <td style="color: black;">Atom</th>
+          <td style="color: black;">Distance</th>
          </tr>
       
         {% for i in x[k][0] %}
@@ -126,17 +126,17 @@
       
       {%elif x[k][1] in title and x[k][1] not in ['ionic interaction','cation pi interaction']%}
          <div style="overflow:auto;overflow-x: hidden;height:25em;margin:3rem"> 
-           <table id='flow' style="margin:10px;padding: 5px;">
+           <table id='flow' style="width:75%;text-align: center;font-size: 20px;margin-left: 10%;">
 
             <caption style="font-size: 35px;position: sticky;top:0;background-color: gray;">{{x[k][1]|upper}}</caption>
             <tr style="color: black;">
-             <th style="color: black;">Residue Name</th>
-             <th style="color: black;">Residue Number</th>
+             <td style="color: black;">Residue Name</th>
+             <td style="color: black;">Residue Number</th>
         
-             <th style="color: black;">Residue Name</th>
-             <th style="color: black;">Residue Number</th>
+             <td style="color: black;">Residue Name</th>
+             <td style="color: black;">Residue Number</th>
         
-             <th style="color: black;">Distance</th>
+             <td style="color: black;">Distance</th>
             </tr>
 
 
