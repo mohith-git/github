@@ -57,7 +57,7 @@
       <!--<button class='dropdwn' onclick="toggle()">{{title[k]}}</button>-->
       {% if x[k][1] in title and x[k][1] not in ['contact order','long range order','surrounding hydrophobicity']%}
        <div style="overflow:auto;overflow-x: hidden;height:25em;margin:3rem;"> 
-        <table id='flow' style="width:90%;">
+        <table id='flow' style="width:90%;text-align:center;">
           {%if x[k][1]=='contacts'%}
             <caption style="font-size: 35px;position: sticky;top:0;background-color: gray;">{{x[k][1]|upper}} = {{x[k][2]}}{{'A'+'\u00B0'}}</caption>
             <tr>
@@ -195,7 +195,7 @@
       {%elif x[k][1] in title and x[k][1] =='long range order'%}
          <!--<p style="text-align:center; position: sticky;font-size: 35px">{{x[k][1]|upper}}(LRO)----{{x[k][0][1]}}</p>-->
          <div style="overflow:auto;overflow-x: hidden;height:50em;margin:3rem;"> 
-           <table id='flow' style="width:90%;">
+           <table id='flow' style="width:90%;text-align:center;">
             <caption style="font-size: 35px;position: sticky;top:0;background-color: gray;">{{x[k][1]|upper}}(LRO) = {{x[k][0][1]}}</caption>
             <tr style="color: black;">
               <th style="color: black;">Residue Name</th>
@@ -224,7 +224,7 @@
       {%elif x[k][1] in title and x[k][1] =='surrounding hydrophobicity'%}
          <!--<p style="text-align:center; position: sticky;font-size: 35px">{{x[k][1]|upper}}(SRH)</p>-->
          <div style="overflow:auto;overflow-x: hidden;height:50em;margin:3rem;"> 
-           <table id='flow' style="width:90%;">
+           <table id='flow' style="width:90%;text-align:center;">
             <caption style="font-size: 35px;position: sticky;top:0;background-color: gray;">{{x[k][1]|upper}}(SRH)</caption>
             <tr style="color: black;">
               <th style="color: black;">Residue Name</th>
