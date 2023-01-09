@@ -81,12 +81,12 @@
      {% for k in range(0,x|length) %}
       <!--<button class='dropdwn' onclick="toggle()">{{title[k]}}</button>-->
       {% if x[k][1] in title and x[k][1] in ['ionic interaction','cation pi interaction']%}
-       <div style="height:max-content;margin:3em;"> 
+       <div style="overflow:auto;overflow-x: hidden;height:25em;margin:3rem"> 
         <table id='flow' style="margin:10px;padding: 5px;">
          {%if x[k][1]=='cation pi interaction'%}
-          <caption style="font-size: 35px;position: sticky;top:0;background-color: white;">CATION &Pi; INTERACTIONS</caption>
+          <caption style="font-size: 35px;position: sticky;top:0;background-color: gray;">CATION &Pi; INTERACTIONS</caption>
          {%else%} 
-          <caption style="font-size: 35px;position: sticky;top:0;background-color: white;">{{x[k][1]|upper}}</caption>
+          <caption style="font-size: 35px;position: sticky;top:0;background-color: gray;">{{x[k][1]|upper}}</caption>
          {%endif%}
          <tr style="color: black;">
           <th style="color: black;">Residue Name</th>
@@ -125,10 +125,10 @@
        </div>
       
       {%elif x[k][1] in title and x[k][1] not in ['ionic interaction','cation pi interaction']%}
-         <div style="height:max-content;margin:3rem;"> 
+         <div style="overflow:auto;overflow-x: hidden;height:25em;margin:3rem"> 
            <table id='flow' style="margin:10px;padding: 5px;">
 
-            <caption style="font-size: 35px;position: sticky;top:0;background-color: white;">{{x[k][1]|upper}}</caption>
+            <caption style="font-size: 35px;position: sticky;top:0;background-color: gray;">{{x[k][1]|upper}}</caption>
             <tr style="color: black;">
              <th style="color: black;">Residue Name</th>
              <th style="color: black;">Residue Number</th>
@@ -169,6 +169,6 @@
       
      {%endfor%}
     </div>  
-    <p>...........................................</p>
+    <p></p>
   
 {% endblock %}
