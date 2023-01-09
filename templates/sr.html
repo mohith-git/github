@@ -7,7 +7,7 @@
 <!-- Sequence Coloring -->
 <div>
  <div class='sr' style="height: 125px;width:70%;margin-right:3%;overflow: auto;float:right;">
-  <heading style="height:max-content;display: block;background-color:gray;text-align: center;font-size: 35px;">Protein Sequence</heading>  
+  <heading style="height:max-content;display: block;background-color:gray;text-align: center;font-size: 35px;position:sticky;top: 0">Protein Sequence</heading>  
     {% for i in range(1,d|length) %}
          {% if i|string() in a %}
            {% if i%10==0 or i == d|length-1 %}
@@ -59,7 +59,7 @@
        <div style="overflow:auto;overflow-x: hidden;height:25em;margin:3rem;"> 
         <table id='flow' style="width:90%;">
           {%if x[k][1]=='contacts'%}
-         <caption style="font-size: 35px;position: sticky;">{{x[k][1]|upper}}&nbsp;&nbsp;=&nbsp;&nbsp;<input value={{x[k][2]}} readonly style='font-size: 35px;width:50px;'></input>(&#197;)</caption>
+            <caption style="font-size: 35px;position: sticky;top:0;background-color: white;">{{x[k][1]|upper}}---{{x[k][2]}}{{'A'+'\u00B0'}}</caption>
             <tr>
              <th style="color: black;">Residue Name</th>
              <th style="color: black;">Residue Number</th>
@@ -85,7 +85,7 @@
            {%endfor%}
           {%else%}
          
-           <caption style="font-size: 35px;position: sticky;">{{x[k][1]|upper}}</caption>
+           <caption style="font-size: 35px;position: sticky;top:0;background-color: white;">{{x[k][1]|upper}}</caption>
         
          
            <tr style="color: black;">
@@ -191,10 +191,12 @@
           <p >{{x[k][1]|upper}}</p>
           <p>{{x[k][0]}}</p>
          </div>
+         <br><br>
       {%elif x[k][1] in title and x[k][1] =='long range order'%}
+         <!--<p style="text-align:center; position: sticky;font-size: 35px">{{x[k][1]|upper}}(LRO)----{{x[k][0][1]}}</p>-->
          <div style="overflow:auto;overflow-x: hidden;height:50em;margin:3rem;"> 
            <table id='flow' style="width:90%;">
-            <caption style="font-size: 35px;position: sticky;">{{x[k][1]|upper}}(LRO)&nbsp;&nbsp;=&nbsp;&nbsp;<input value={{x[k][0][1]}} readonly style='font-size: 35px;width:50px;'></input></caption>
+            <caption style="font-size: 35px;position: sticky;top:0;background-color: white;">{{x[k][1]|upper}}(LRO)----{{x[k][0][1]}}</caption>
             <tr style="color: black;">
               <th style="color: black;">Residue Name</th>
               <th style="color: black;">Residue Number</th>
@@ -220,14 +222,15 @@
          </table>
        </div>
       {%elif x[k][1] in title and x[k][1] =='surrounding hydrophobicity'%}
+         <!--<p style="text-align:center; position: sticky;font-size: 35px">{{x[k][1]|upper}}(SRH)</p>-->
          <div style="overflow:auto;overflow-x: hidden;height:50em;margin:3rem;"> 
            <table id='flow' style="width:90%;">
-            <caption style="font-size: 35px;position: sticky;">{{x[k][1]|upper}}(SH)</caption>
+            <caption style="font-size: 35px;position: sticky;top:0;background-color: white;">{{x[k][1]|upper}}(SRH)</caption>
             <tr style="color: black;">
               <th style="color: black;">Residue Name</th>
               <th style="color: black;">Residue Number</th>
               <th style="color: black;">Chain</th>
-              <th style="color: black;">SH</th>
+              <th style="color: black;">SRH</th>
             </tr>
 
          {% for i in x[k][0] %}
@@ -253,7 +256,7 @@
 
       
      
-    <p></p>
+    <p>...........................................</p>
     
 
 
