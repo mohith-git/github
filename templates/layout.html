@@ -58,22 +58,23 @@
                   <table id='prop' style="width:100%;border-width: 5px;border-color: black;">
                    <caption style="height:max-content;background-color:gray;text-align: center;">Inter-Residue Contact</caption>
                   
-                   <tr><td><input type="checkbox" value="short range" name="redirect">&nbsp;&nbsp;<label>Short Range Contacts</label></td>
-                   <td><input type="checkbox" value="medium range" name="redirect">&nbsp;&nbsp;<label>Medium Range Contacts</label></td>
-                   <td><input type="checkbox" value="long range" name="redirect">&nbsp;&nbsp;<label>Long Range Contacts</label></td></tr>
-                   <tr><td><input type="checkbox" value="contact order" name="redirect">&nbsp;&nbsp;<label>Contact Order</label></td>
-                   <td><input type="checkbox" value="long range order" name="redirect">&nbsp;&nbsp;<label>Long Range Order</label></td>
-                   <td><input type="checkbox" value="surrounding hydrophobicity" name="redirect">&nbsp;&nbsp;<label>Surrounding hydrophobicity</label></td></tr>
-                   <tr><td><input type="checkbox" value="contacts" name="redirect">&nbsp;&nbsp;<label>Residue Residue Contacts</label></td>
+                   <tr><td><nobr><input type="checkbox" value="short range" name="redirect">&nbsp;&nbsp;<label>Short Range Contacts</label></nobr></td>
+                   <td><nobr><input type="checkbox" value="medium range" name="redirect">&nbsp;&nbsp;<label>Medium Range Contacts</label></nobr></td>
+                   <td><nobr><input type="checkbox" value="long range" name="redirect">&nbsp;&nbsp;<label>Long Range Contacts</label></td></nobr></tr>
+                   <tr><td><nobr><input type="checkbox" value="contact order" name="redirect">&nbsp;&nbsp;<label>Contact Order</label></nobr></td>
+                   <td><nobr><input type="checkbox" value="surrounding hydrophobicity" name="redirect">&nbsp;&nbsp;<label>Surrounding hydrophobicity</label></nobr></td>
+                   <td><input type="checkbox" value="long range order" name="redirect">&nbsp;&nbsp;<label>Long Range Order</label></td></tr>
+                   <tr><td><nobr><input type="checkbox" value="contacts" name="redirect">&nbsp;&nbsp;<label>Residue Residue Contacts</label></nobr></td>
                    <td><input type="checkbox" onclick="selects()" name="all">&nbsp;&nbsp;<label>All</label></td></tr>
                   </table>
                   <br>
                   <br>
                   <table id='prop' style="width:100%;border-width: 5px;border-color: black;">
+                    <caption style="height:max-content;background-color:gray;text-align: center;">Region-Specific</caption>
                     <tr>
-                     <td><input type='radio' value='m-m' name='reg' >&nbsp;&nbsp;Membrane-Membrane Contacts</td>
-                     <td><input type='radio' value='m-e' name='reg'>&nbsp;&nbsp;Membrane-Exterior Contacts</td>
-                     <td><input type='radio' value='m-i' name='reg'>&nbsp;&nbsp;Membrane-Interior Contacts</td>
+                     <td><nobr><input type='radio' value='m-m' name='reg'>&nbsp;&nbsp;Membrane-Membrane Region</td></nobr></tr>
+                     <tr><td><nobr><input type='radio' value='m-e' name='reg'>&nbsp;&nbsp;Membrane-Exterior Region</td></nobr></tr>
+                     <tr><td><nobr><input type='radio' value='m-i' name='reg'>&nbsp;&nbsp;Membrane-Interior Region</td></nobr>
                    </tr>
                   </table>
                   
