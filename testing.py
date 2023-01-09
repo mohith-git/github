@@ -1100,12 +1100,12 @@ def contact_network():
 
      for i in range(len(x)):
         fig.add_trace(go.Scatter3d(
-     x=x[i], y=y[i], z=z[i],mode='lines',line = dict(color='yellow', width=4, dash='dot'),name='{0}{1}-{2}{3}'.format(name[i][0],name[i][1],name[i][2],name[i][3])))
+     x=x[i], y=y[i], z=z[i],mode='lines',line = dict(color='rgb(102, 0, 102)', width=4, dash='dot'),name='{0}{1}-{2}{3}'.format(name[i][0],name[i][1],name[i][2],name[i][3])))
     
 
      for i in range(len(x_j)):
         fig.add_trace(go.Scatter3d(
-     x=x_j[i], y=y_j[i], z=z_j[i],mode='lines',line = dict(color='green', width=4, dash='dot'),name='{0}{1}-{2}{3}'.format(nam[i][0],nam[i][1],nam[i][2],nam[i][3])))
+     x=x_j[i], y=y_j[i], z=z_j[i],mode='lines',line = dict(color='rgb(153, 51, 0)', width=4, dash='dot'),name='{0}{1}-{2}{3}'.format(nam[i][0],nam[i][1],nam[i][2],nam[i][3])))
      
 
 
@@ -1130,7 +1130,7 @@ def contact_network():
 
 ,
     scene=dict(
-        bgcolor='black',
+        bgcolor='white',
         
     #     camera=dict(
     #         up=dict(
@@ -1147,19 +1147,19 @@ def contact_network():
     #     )
     # ),plot_bgcolor='black'
     xaxis = dict(
-                                         backgroundcolor="rgba(0, 0, 0)",
-                                         gridcolor="white",
+                                         backgroundcolor="white",
+                                         gridcolor="black",
                                          showbackground=True,
                                          zerolinecolor="white",
                                          ),
                                     yaxis = dict(
-                                        backgroundcolor="rgba(0, 0, 0)",
-                                        gridcolor="white",
+                                        backgroundcolor="white",
+                                        gridcolor="black",
                                         showbackground=True,
                                         zerolinecolor="white"),
                                     zaxis = dict(
-                                        backgroundcolor="rgba(0, 0, 0)",
-                                        gridcolor="white",
+                                        backgroundcolor="white",
+                                        gridcolor="black",
                                         showbackground=True,
                                         zerolinecolor="white"))
 )
