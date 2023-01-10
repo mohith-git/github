@@ -268,17 +268,17 @@ def A8(f,inp,a):
         for i in xa:
             j1=0
             deg = 0
-            res = ''
+            res = []
             for j in xa:
                 d=distance_formula(i,j)
                 if 0<d**0.5<=float(inp):
                     deg+=1
-                    res+='{0}-{1}'.format(j[3],j[5])+' '
+                    res.append('{0}-{1}'.format(j[3],j[5]))
 
                 j1=j1+1
 
             #degree['{0}-{1}'.format(i[3],i[5])] = deg
-            contacts.append([i[3],i[5],'A',deg,res])
+            contacts.append([i[3],i[5],'A',deg,','.join(res)])
         #print('C-alpha:{0}'.format(inp))
         return(contacts)
     # def A14(self):
