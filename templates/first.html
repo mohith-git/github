@@ -14,7 +14,7 @@
 
 
       </div>-->
-      <div class='menu' style="display: block;height: 5%;background-color: brown;font-size: 25px;margin-bottom:1%;">
+      <div class='menu' style="display: block;height: 5%;background-color: brown;font-size: 25px;">
         <ul>
           <li><a href='/'>Home</a></li>
           <li><a>Compute</a></li>
@@ -29,7 +29,7 @@
         <input type="button" name="About" value="About" style="width:50px;display: inline-block;">
         <input type="button" name="Links" value="Links" style="width:50px;display: inline-block;">-->
       </div>
-      <div class="container">
+      <!--<div class="container">
         <h1 class="logo" style="text-align:center;padding-top:2%;font-size: 50px;">TIMPA</h1>
         <strong><nav>
         
@@ -37,14 +37,81 @@
          
          <p style="text-align: center;font-size: 35px;">TIMPA is an online resource for computing several parameters from three dimensional structures of membrane proteins.The parameters are generally classified into different themes and choose one of them to compute:</p><br>
           <form method="post" action='/'>
-            <table id='prop' style="width:80%;border-width: 5px;border-color: black;text-align: center;margin-left:10%;>
+            <table id='prop' style="width:80%;border-width: 5px;border-color: black;margin-left: 10%;text-align: center;">
+                   <caption style="height:max-content;background-color:gray;text-align: center;font-size: 30px;">Input Details</caption>
+                   <tr>
+                     <td style="font-size: 30px;"><nobr>PDB ID:&nbsp;&nbsp;<input type="text" name='Pdb' style="font-size: 25px;width:100px;"></nobr></td><td style="font-size: 30px;"><nobr>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PDB File:<input type="file" name="fname" id='files' style="font-size: 25px;margin-left: 4%"></nobr></td>
+                     <td style="font-size: 30px;"><nobr>Cutoff Distance:&nbsp;&nbsp;<input type="number" step="0.1" name="cutoff" style="font-size: 25px;width: 50px;">&nbsp;(&#197;)</nobr></td>
+                   </tr>
+            </table>-->
+          	<!--<table style="width: 80%;margin-left: 10%">
+                   
+                   <tr>
+                     <td style="font-size: 30px;"><nobr>PDB ID:&nbsp;&nbsp;<input type="text" name='Pdb' style="font-size: 25px;width:100px;"></nobr></td><td style="font-size: 30px;margin-left: 20%;"><nobr>PDB File:<input type="file" name="fname" style="font-size: 25px;margin-left: 2%"></nobr></td>
+                     <td style="font-size: 30px;"><nobr>Cutoff Distance:&nbsp;&nbsp;<input type="number" step="0.1" name="cutoff" style="font-size: 25px;width: 50px;">&nbsp;(&#197;)</nobr></td>
+                   </tr>
+            </table>-->
+           <!--<br>
+           <div style="width:100%;height:100px;margin-left:0%;">-->
+            
+            <!--<table style="border-spacing: 10px;font-size: 30px;">-->
+            <!--<table id='prop' style="width:80%;border-width: 5px;border-color: black;margin-left: 10%;font-size: 30px;margin-bottom: 5%;">
+                   <caption style="height:max-content;background-color:gray;text-align: center;font-size: 30px;">Parameters</caption>  
+
+             <tr><td><input type="radio" value="residue contact" name="title">&nbsp;&nbsp;&nbsp;<label>Inter-residue Contact</label></td></tr>
+             
+             <tr><td><input type="radio" value="interactions" name="title">&nbsp;&nbsp;&nbsp;<label>Inter-residue Interactions</label></td></tr>
+             
+             <tr><td><input type="radio" value="contact_map" name="title">&nbsp;&nbsp;&nbsp;<label>Contact Map</label></td></tr>
+             
+             <tr><td><input type="radio" value="contact_network" name="title">&nbsp;&nbsp;&nbsp;<label>Contact Network</label></td></tr>
+             
+             <tr><td><input type="radio" value="binding_site" name="title">&nbsp;&nbsp;&nbsp;<label>Binding Site</label></td></tr>
+             
+             <tr><td><input type="radio" value="ramachandran_plot" name="title">&nbsp;&nbsp;&nbsp;<label>Ramachandran Plot</label></td></tr>
+          	
+             <tr><td style="text-align: center;"><input type='Submit' value='Submit' style="font-size:30px;border-radius: 10px;"></td></tr>
+
+            </table>
+           </div>
+          </form>-->
+            <!--<input type="radio" value="short_range" name="redirect"><label>short_range</label>
+            <input type="radio" value="medium_range" name="redirect"><label>medium_range</label>
+            <input type="radio" value="long_range" name="redirect"><label>long_range</label>
+            <input type="radio" value="contact_order" name="redirect"><label>contact_order</label>
+            <input type="radio" value="ionic_interaction" name="redirect"><label>ionic_interaction</label>
+            <input type='Submit' value='Submit!'>
+            <input type="button" value="Go back!" onclick="history.back()">
+            <input type="button" value="Reloads!" onclick="history.go(0)">
+          </form>-->
+         
+         
+        <!--</nav></strong>
+
+      </div>
+      <div class='img' style="display: block;height: 5%;background-color: brown;font-size: 25px;margin-top: 5%;"><p>Copyright © 2022 Protein Bioinformatics Lab, Department of Biotechnology, Indian Institute of Technology Madras, Chennai, India.</p></div>-->
+      
+    <!--<div class="container">
+      {% block content %}
+      {% endblock %}
+    </div>-->
+    
+    <div class="container">
+        <h1 class="logo" style="text-align:center;padding-top:2%;font-size: 50px;">TIMPA</h1>
+        <strong><nav>
+        
+         
+         
+         <p style="text-align: center;font-size: 35px;">TIMPA is an online resource for computing several parameters from three dimensional structures of membrane proteins.The parameters are generally classified into different themes and choose one of them to compute:</p><br>
+          <form method="post" action='/'>
+            <table id='prop' style="width:80%;border-width: 5px;border-color: black;text-align: center;margin-left:10%;">
                    <caption style="height:max-content;background-color:gray;text-align: center;font-size: 30px;">Input Details</caption>
                    <tr>
                      <td style="font-size: 30px;"><nobr>PDB ID:&nbsp;&nbsp;<input type="text" name='Pdb' style="font-size: 25px;width:100px;"></nobr></td><td style="font-size: 30px;"><nobr>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PDB File:<input type="file" name="fname" id='files' style="font-size: 25px;margin-left: 4%"></nobr></td>
                      <td style="font-size: 30px;"><nobr>Cutoff Distance:&nbsp;&nbsp;<input type="number" step="0.1" value=8 name="cutoff" style="font-size: 25px;width: 50px;">&nbsp;(&#197;)</nobr></td>
                    </tr>
             </table>
-          	<!--<table style="width: 80%;margin-left: 10%">
+            <!--<table style="width: 80%;margin-left: 10%">
                    
                    <tr>
                      <td style="font-size: 30px;"><nobr>PDB ID:&nbsp;&nbsp;<input type="text" name='Pdb' style="font-size: 25px;width:100px;"></nobr></td><td style="font-size: 30px;margin-left: 20%;"><nobr>PDB File:<input type="file" name="fname" style="font-size: 25px;margin-left: 2%"></nobr></td>
@@ -69,7 +136,7 @@
              <tr><td><input type="radio" value="binding_site" name="title">&nbsp;&nbsp;&nbsp;<label>Binding Site</label></td></tr>
              
              <tr><td><input type="radio" value="ramachandran_plot" name="title">&nbsp;&nbsp;&nbsp;<label>Ramachandran Plot</label></td></tr>
-          	
+            
              <tr><td style="text-align: center;"><input type='Submit' value='Submit' style="font-size:30px;border-radius: 10px;"></td></tr>
 
             </table>
@@ -89,13 +156,8 @@
         </nav></strong>
 
       </div>
-      <div class='img' style="display: block;height: 5%;background-color: brown;font-size: 25px;"><p>Copyright © 2022 Protein Bioinformatics Lab, Department of Biotechnology, Indian Institute of Technology Madras, Chennai, India.</p></div>
+      <div class='img' style="display: block;height: 5%;background-color: brown;font-size: 25px;margin-top: 5%;"><p>Copyright © 2022 Protein Bioinformatics Lab, Department of Biotechnology, Indian Institute of Technology Madras, Chennai, India.</p></div>
       
-    <!--<div class="container">
-      {% block content %}
-      {% endblock %}
-    </div>-->
-    
     
 
 
