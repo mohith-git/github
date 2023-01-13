@@ -39,7 +39,7 @@ def read_xml(f):
         seq_xml = []
         seq = []
         #name = os.path.join(app.root_path,'xmlf',f+'.xml')
-        tree = ET.parse("C:/Users/Dell/Desktop/Transmembrane/xmlf/pdbtmbeta.xml")
+        tree = ET.parse("pdbtmbeta.xml")
 
         root = tree.getroot()
         for i in range(len(root)):
