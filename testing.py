@@ -38,8 +38,8 @@ def read_xml(f):
         import xml.etree.ElementTree as ET
         seq_xml = []
         seq = []
-        #name = os.path.join(app.root_path,'xmlf',f+'.xml')
-        tree = ET.parse("pdbtmbeta.xml")
+        name = os.path.join(app.root_path,'xmlf',"pdbtmbeta.xml")
+        tree = ET.parse(name)
 
         root = tree.getroot()
         for i in range(len(root)):
