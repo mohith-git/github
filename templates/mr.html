@@ -79,10 +79,10 @@
     <div id="test" style="margin-top:20px;margin-bottom: 0px;">
      {% for k in range(0,x|length) %}
       <!--<button class='dropdwn' onclick="toggle()">{{title[k]}}</button>-->
-      {% if x[k][1] in title and x[k][1] in ['ionic interaction','cation pi interaction']%}
+      {% if x[k][1] in title and x[k][1] in ['ionic interactions','cation pi interactions']%}
        <div style="overflow:auto;overflow-x: hidden;height:25em;margin:3rem;font-size: 10px;"> 
         <table id='flow' style="width:75%;text-align: center;margin-left: 10%;">
-         {%if x[k][1]=='cation pi interaction'%}
+         {%if x[k][1]=='cation pi interactions'%}
           <caption style="font-size: 30px;position: sticky;top:0;background-color: gray;">CATION &Pi; INTERACTIONS</caption>
          {%else%} 
           <caption style="font-size: 30px;position: sticky;top:0;background-color: gray;">{{x[k][1]|upper}}</caption>
@@ -123,7 +123,7 @@
         </table>
        </div>
       
-      {%elif x[k][1] in title and x[k][1] not in ['ionic interaction','cation pi interaction']%}
+      {%elif x[k][1] in title and x[k][1] not in ['ionic interactions','cation pi interactions']%}
          <div style="overflow:auto;overflow-x: hidden;height:25em;margin:3rem;font-size: 10px;"> 
            <table id='flow' style="width:75%;text-align: center;margin-left: 10%;">
 
