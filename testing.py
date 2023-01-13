@@ -38,20 +38,25 @@ def read_xml(f):
         import xml.etree.ElementTree as ET
         seq_xml = []
         seq = []
-        name = os.path.join(app.root_path,'xmlf',f+'.xml')
-        tree = ET.parse(name)
+        #name = os.path.join(app.root_path,'xmlf',f+'.xml')
+        tree = ET.parse("C:/Users/Dell/Desktop/Transmembrane/xmlf/pdbtmbeta.xml")
+
         root = tree.getroot()
         for i in range(len(root)):
-            if 'CHAIN' in root[i].tag and root[i].attrib['CHAINID'] in ['A','P','M']:
-                for j in range(len(root[i])):
-                    if j!=0:
-                        seq_xml.append(root[i][j].attrib)
-        for i in root:
-            if 'CHAIN' in i.tag and i.attrib['CHAINID'] in ['A','P','M']:
-               for j in i:
-                 if 'SEQ' in j.tag:
-                     seq = ''.join(str(j.text).split(' '))
-        return([seq_xml,seq])
+           if root[i].attrib['ID']==f:
+            for j in range(len(root[i])):
+                if 'CHAIN' in root[i][j].tag and root[i][j].attrib['CHAINID']in ['A','P','M']:
+                    for k in range(len(root[i][j])):
+                        if k!=0:
+                            seq_xml.append(root[i][j][k].attrib)
+        for i in range(len(root)):
+            if root[i].attrib['ID']==f:
+             for j in range(len(root[i])):
+                if 'CHAIN' in root[i][j].tag and root[i][j].attrib['CHAINID']in ['A','P','M']:
+                    for k in root[i][j]:
+                      if 'SEQ' in k.tag:
+                            seq = ''.join(str(k.text).split(' '))
+        return [seq_xml,seq]
 
 
 
