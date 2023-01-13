@@ -860,7 +860,7 @@ def home():
                   else:
                     return redirect(url_for('short_range',file=f,titles=base,cut=8,reg = 'all',ato = ato))
                     
-      elif base[0] in ['ionic interaction', 'disulphide interaction', 'hydrophobic interaction', 'cation pi interaction', 'aromatic aromatic interaction', 'mmch', 'msch', 'ssch']:
+      elif base[0] in ['ionic interactions', 'disulphide interactions', 'hydrophobic interactions', 'cation pi interactions', 'aromatic aromatic interactions', 'mmch', 'msch', 'ssch']:
                 return redirect(url_for('medium_range',file=f,titles=base,reg = reg))
                
       #elif base[0] == 'contact map':
@@ -917,7 +917,7 @@ def medium_range():
             if i !='\n':
               sequ.append(i)
         
-        return render_template('mr.html',x=[(Ionic_Interaction(f),'ionic interaction'),(Hydrophobic_interaction(f),'hydrophobic interaction'),(Cation_pi(f),'cation pi interaction'),(Disulphide_interaction(f),'disulphide interaction'),(Aromatic_Aromatic(f),'aromatic aromatic interaction'),('A')],a=Regions(f)[0],b=Regions(f)[1],c=Regions(f)[2],d=sequ,title = t)
+        return render_template('mr.html',x=[(Ionic_Interaction(f),'ionic interactions'),(Hydrophobic_interaction(f),'hydrophobic interactions'),(Cation_pi(f),'cation pi interactions'),(Disulphide_interaction(f),'disulphide interactions'),(Aromatic_Aromatic(f),'aromatic aromatic interactions'),('A')],a=Regions(f)[0],b=Regions(f)[1],c=Regions(f)[2],d=sequ,title = t)
 
 
 @app.route("/cmap/")
