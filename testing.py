@@ -932,13 +932,13 @@ def contact_map():
      
      cm = c_m(f)
      cm = pd.DataFrame({'Amino acid':cm[0],' Amino acid':cm[1],'dist':cm[2]})
-     fig = px.scatter(cm,x='Amino acid',y=' Amino acid',color ='dist',opacity=0.3,color_continuous_scale=px.colors.sequential.Bluyl,title='Contact Map     {}'.format(f),template='plotly_dark',width=750,height=550)
+     fig = px.scatter(cm,x='Amino acid',y=' Amino acid',color ='dist',opacity=0.7,color_continuous_scale=px.colors.sequential.Turbo,title='Contact Map     {}'.format(f),template='plotly',width=750,height=550)
      fig.update_layout(
     font_family="Courier New",
-    font_color="#66ff00",
+    font_color="Red",
     font_size=25,
     title_font_size=25,
-    legend_title_font_color="green",
+    legend_title_font_color="Red",
     
 )
      my_plot_div = fig.to_html(full_html=True)
