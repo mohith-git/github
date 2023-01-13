@@ -10,7 +10,7 @@ import numpy as np
 from plotly.offline import plot
 from plotly.graph_objs import Scatter
 import plotly.express as px
-import plotly.graph_objects as go
+import plotly.graph_objects as go 
 import os
 import pandas as pd
 import argparse
