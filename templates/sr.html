@@ -4,8 +4,9 @@
  
 
 
+
 <!-- Sequence Coloring -->
-<div>
+<div style="margin-bottom: 10%;">
  <div class='sr' style="height: 125px;width:70%;margin-right:3%;overflow: auto;float:right;">
   <heading style="height:max-content;display: block;background-color:gray;text-align: center;font-size: 35px;position:sticky;top: 0">Protein Sequence</heading>  
     {% for i in range(1,d|length) %}
@@ -57,7 +58,7 @@
       <!--<button class='dropdwn' onclick="toggle()">{{title[k]}}</button>-->
       {% if x[k][1] in title and x[k][1] not in ['contact order','long range order','surrounding hydrophobicity']%}
        <div style="overflow:auto;overflow-x: hidden;height:25em;margin:3rem;"> 
-        <table id='flow' style="width:90%;text-align: center;">
+        <table id='flow' style="width:75%;text-align: center;margin-left: 10%;">
           {%if x[k][1]=='contacts'%}
             <caption style="font-size: 30px;position: sticky;top:0;background-color: gray;">{{x[k][1]|upper}}={{x[k][2]}}({{'A'+'\u00B0'}})</caption>
             <tr>
@@ -187,7 +188,7 @@
        </div>
       
       {%elif x[k][1] in title and x[k][1] == 'contact order'%}
-         <div style="text-align: center;margin:5%;font-size: 30px;">
+         <div style="text-align: center;margin-bottom: 10%;margin-top:10%;font-size: 40px;">
           <p >{{x[k][1]|upper}}</p>
           <p>{{x[k][0]}}</p>
          </div>
@@ -195,13 +196,13 @@
       {%elif x[k][1] in title and x[k][1] =='long range order'%}
          <!--<p style="text-align:center; position: sticky;font-size: 35px">{{x[k][1]|upper}}(LRO)----{{x[k][0][1]}}</p>-->
          <div style="overflow:auto;overflow-x: hidden;height:25em;margin:3rem;"> 
-           <table id='flow' style="width:75%;text-align: center;margin-left: 10%;">
+           <table id='flow' style="width:50%;text-align: center;margin-left: 20%;">
             <caption style="font-size: 30px;position: sticky;top:0;background-color: gray;">{{x[k][1]|upper}}(LRO)={{x[k][0][1]}}</caption>
             <tr style="color: black;">
-              <td  style="color: black;">Residue Name</td>
-              <td  style="color: black;">Residue Number</td>
-              <td style="color: black;">Chain</td>
-              <td  style="color: black;">LRO</td>
+              <td  style="color: black;width: 25%;">Residue Name</td>
+              <td  style="color: black;width: 25%;">Residue Number</td>
+              <td style="color: black;width: 25%;">Chain</td>
+              <td  style="color: black;width: 35%;">LRO</td>
             </tr>
 
 
@@ -224,13 +225,13 @@
       {%elif x[k][1] in title and x[k][1] =='surrounding hydrophobicity'%}
          <!--<p style="text-align:center; position: sticky;font-size: 35px">{{x[k][1]|upper}}(SRH)</p>-->
          <div style="overflow:auto;overflow-x: hidden;height:25em;margin:3rem;"> 
-           <table id='flow' style="width:75%;text-align: center;margin-left: 10%;">
+           <table id='flow' style="width:50%;text-align: center;margin-left: 20%;">
             <caption style="font-size: 30px;position: sticky;top:0;background-color: gray;">{{x[k][1]|upper}}(SRH)</caption>
             <tr style="color: black;">
-              <td  style="color: black;">Residue Name</td>
-              <td  style="color: black;">Residue Number</td>
-              <td  style="color: black;">Chain</td>
-              <td  style="color: black;">SRH</td>
+              <td  style="color: black;width: 25%;">Residue Name</td>
+              <td  style="color: black;width: 25%;">Residue Number</td>
+              <td  style="color: black;width: 25%;">Chain</td>
+              <td  style="color: black;width: 35%;">SRH</td>
             </tr>
 
          {% for i in x[k][0] %}

@@ -45,14 +45,14 @@
   </div>
      <div id='test'> 
       <table id='flow'>
-    	<tr>
-    		<th>Residue Name</th>
-    		<th>Residue Number</th>
-    		<th>Residue Name</th>
-    		<th>Residue Number</th>
-    		<th>Distance</th>
-    	</tr>
-    	{% for i in x %}
+      <tr>
+        <th>Residue Name</th>
+        <th>Residue Number</th>
+        <th>Residue Name</th>
+        <th>Residue Number</th>
+        <th>Distance</th>
+      </tr>
+      {% for i in x %}
           <tr>
             <td>{{i[0]}}</td>
           {%if i[1] in a %}
@@ -70,10 +70,9 @@
           {%else%}
             <td style="background-color: color:yellow">{{i[3]}}</td>
           {%endif%}
-          	<td>{{i[4]}}</td>
+            <td>{{i[4]}}</td>
           </tr>
         {%endfor%}
-
       </table>-->
 
     
@@ -84,9 +83,9 @@
        <div style="overflow:auto;overflow-x: hidden;height:25em;margin:3rem;font-size: 10px;"> 
         <table id='flow' style="width:75%;text-align: center;margin-left: 10%;">
          {%if x[k][1]=='cation pi interaction'%}
-          <caption style="font-size: 25px;position: sticky;top:0;background-color: gray;">CATION &Pi; INTERACTIONS</caption>
+          <caption style="font-size: 30px;position: sticky;top:0;background-color: gray;">CATION &Pi; INTERACTIONS</caption>
          {%else%} 
-          <caption style="font-size: 25px;position: sticky;top:0;background-color: gray;">{{x[k][1]|upper}}</caption>
+          <caption style="font-size: 30px;position: sticky;top:0;background-color: gray;">{{x[k][1]|upper}}</caption>
          {%endif%}
          <tr style="color: black;">
           <td style="color: black;">Residue Name</th>
@@ -128,7 +127,7 @@
          <div style="overflow:auto;overflow-x: hidden;height:25em;margin:3rem;font-size: 10px;"> 
            <table id='flow' style="width:75%;text-align: center;margin-left: 10%;">
 
-            <caption style="font-size: 25px;position: sticky;top:0;background-color: gray;">{{x[k][1]|upper}}</caption>
+            <caption style="font-size: 30px;position: sticky;top:0;background-color: gray;">{{x[k][1]|upper}}</caption>
             <tr style="color: black;">
              <td style="color: black;">Residue Name</th>
              <td style="color: black;">Residue Number</th>
