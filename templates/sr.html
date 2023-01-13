@@ -60,7 +60,7 @@
        <div style="overflow:auto;overflow-x: hidden;height:25em;margin:3rem;"> 
         <table id='flow' style="width:75%;text-align: center;margin-left: 10%;">
           {%if x[k][1]=='contacts'%}
-            <caption style="font-size: 30px;position: sticky;top:0;background-color: gray;">{{x[k][1]|upper}}={{x[k][2]}}({{'A'+'\u00B0'}})</caption>
+            <caption style="font-size: 30px;position: sticky;top:0;background-color: gray;">{{x[k][1]|upper}}  =   {{x[k][2]}}({{'A'+'\u00B0'}})</caption>
             <tr>
              <td  style="color: black;">Residue Name</td>
              <td style="color: black;">Residue Number</td>
@@ -188,7 +188,7 @@
        </div>
       
       {%elif x[k][1] in title and x[k][1] == 'contact order'%}
-         <div style="text-align: center;margin-bottom: 10%;margin-top:10%;font-size: 40px;">
+         <div style="text-align: center;margin-bottom: 2%;margin-top:10%;font-size: 40px;">
           <p >{{x[k][1]|upper}}</p>
           <p>{{x[k][0]}}</p>
          </div>
@@ -197,7 +197,7 @@
          <!--<p style="text-align:center; position: sticky;font-size: 35px">{{x[k][1]|upper}}(LRO)----{{x[k][0][1]}}</p>-->
          <div style="overflow:auto;overflow-x: hidden;height:25em;margin:3rem;"> 
            <table id='flow' style="width:75%;text-align: center;margin-left: 10%;">
-            <caption style="font-size: 30px;position: sticky;top:0;background-color: gray;">{{x[k][1]|upper}}(LRO)={{x[k][0][1]}}</caption>
+            <caption style="font-size: 30px;position: sticky;top:0;background-color: gray;">{{x[k][1]|upper}}(LRO)   =   {{x[k][0][1]}}</caption>
             <tr style="color: black;">
               <td  style="color: black;width: 25%;">Residue Name</td>
               <td  style="color: black;width: 25%;">Residue Number</td>
@@ -226,12 +226,12 @@
          <!--<p style="text-align:center; position: sticky;font-size: 35px">{{x[k][1]|upper}}(SRH)</p>-->
          <div style="overflow:auto;overflow-x: hidden;height:25em;margin:3rem;"> 
            <table id='flow' style="width:75%;text-align: center;margin-left: 10%;">
-            <caption style="font-size: 30px;position: sticky;top:0;background-color: gray;">{{x[k][1]|upper}}(SRH)</caption>
-            <tr style="color: black;">
+            <caption style="font-size: 30px;position: sticky;top:0;background-color: gray;">{{x[k][1]|upper}}  (SH)</caption>
+            <tr style="color: black;">  
               <td  style="color: black;width: 25%;">Residue Name</td>
               <td  style="color: black;width: 25%;">Residue Number</td>
               <td  style="color: black;width: 25%;">Chain</td>
-              <td  style="color: black;width: 35%;">SRH</td>
+              <td  style="color: black;width: 35%;">SH</td>
             </tr>
 
          {% for i in x[k][0] %}
