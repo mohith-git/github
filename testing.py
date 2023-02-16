@@ -5,12 +5,20 @@ Created on Tue Jun 21 16:10:15 2022
 @author: MOHITHTHAMANA
 """
 
+# -*- coding: utf-8 -*-
+"""
+Created on Tue Jun 21 16:10:15 2022
+
+@author: MOHITHTHAMANA
+"""
+
 from flask import Flask, redirect, url_for, render_template, request, Markup
+from RamachanDraw import fetch, phi_psi, plot
 import numpy as np
 from plotly.offline import plot
 from plotly.graph_objs import Scatter
 import plotly.express as px
-import plotly.graph_objects as go 
+import plotly.graph_objects as go
 import os
 import pandas as pd
 import argparse
@@ -32,14 +40,15 @@ def read_file(f):
     file = open(name)
     a=file.read()
     a=a.splitlines()
+    
     return a
 
 def read_xml(f):
         import xml.etree.ElementTree as ET
         seq_xml = []
         seq = []
-        name = os.path.join(app.root_path,'xmlf',"pdbtmbeta.xml")
-        tree = ET.parse(name)
+        #name = os.path.join(app.root_path,'xmlf',f+'.xml')
+        tree = ET.parse("C:/Users/Dell/Desktop/Transmembrane/xmlf/pdbtmbeta.xml")
 
         root = tree.getroot()
         for i in range(len(root)):
@@ -59,6 +68,84 @@ def read_xml(f):
         return [seq_xml,seq]
 
 
+
+def read_hbplus(f):
+    name = os.path.join(app.root_path,'hbpluss',f+'.hb2')
+    MM,MS,SS=[],[],[]
+    file = open(name)
+    a=file.read()
+    a=a.splitlines()
+    
+    a=a[8:len(a)]
+    
+    
+    for i in range(0,len(a)):
+        k=a[i].split()[5].strip()
+
+        if(k=='MM'):
+            rn1,rn2=0,0
+            temp1 = (a[i].split()[0].strip()).split('-')
+            if temp1[0][2:][0]=='0':
+                if temp1[0][2:][1]=='0':
+                    rn1 = temp1[0][4:]
+                else:
+                    rn1 = temp1[0][3:]
+            else:
+                    rn1 = temp1[0][2:]
+
+            temp2 = (a[i].split()[2].strip()).split('-')
+            if temp2[0][2:][0]=='0':
+                if temp1[0][2:][1]=='0':
+                    rn2 = temp2[0][4:]
+                else:
+                    rn2 = temp2[0][3:]
+            else:
+                    rn2 = temp2[0][2:]
+
+            MM.append([temp1[0][0],temp1[1],rn1,a[i].split()[1].strip(),temp2[0][0],temp2[1],rn2,a[i].split()[3].strip(),a[i].split()[4].strip()])
+        elif(k=='MS' or k=='SM'):
+            rn1,rn2=0,0
+            temp1 = (a[i].split()[0].strip()).split('-')
+            if temp1[0][2:][0]=='0':
+                if temp1[0][2:][1]=='0':
+                    rn1 = temp1[0][4:]
+                else:
+                    rn1 = temp1[0][3:]
+            else:
+                    rn1 = temp1[0][2:]
+
+            temp2 = (a[i].split()[2].strip()).split('-')
+            if temp2[0][2:][0]=='0':
+                if temp1[0][2:][1]=='0':
+                    rn2 = temp2[0][4:]
+                else:
+                    rn2 = temp2[0][3:]
+            else:
+                    rn2 = temp2[0][2:]
+            MS.append([temp1[0][0],temp1[1],rn1,a[i].split()[1].strip(),temp2[0][0],temp2[1],rn2,a[i].split()[3].strip(),a[i].split()[4].strip()])
+        elif(k=='SS'):
+            rn1,rn2=0,0
+            temp1 = (a[i].split()[0].strip()).split('-')
+            if temp1[0][2:][0]=='0':
+                if temp1[0][2:][1]=='0':
+                    rn1 = temp1[0][4:]
+                else:
+                    rn1 = temp1[0][3:]
+            else:
+                    rn1 = temp1[0][2:]
+
+            temp2 = (a[i].split()[2].strip()).split('-')
+            if temp2[0][2:][0]=='0':
+                if temp1[0][2:][1]=='0':
+                    rn2 = temp2[0][4:]
+                else:
+                    rn2 = temp2[0][3:]
+            else:
+                    rn2 = temp2[0][2:]
+            SS.append([temp1[0][0],temp1[1],rn1,a[i].split()[1].strip(),temp2[0][0],temp2[1],rn2,a[i].split()[3].strip(),a[i].split()[4].strip()]) 
+
+    return [MM,MS,SS]
+    
 
 def distance_formula(i,j):
         i[6]=float(i[6])
@@ -102,6 +189,7 @@ def Short_range(f,cu):
         i1=0
         # read the pdb file
         fi = read_file(f)
+
         xa=[]
         sr=[]
         #
@@ -251,7 +339,12 @@ def Contact_Order(f):
                 c_order=c_order+(abs(i-j))
           
         # Contact Order = Summation / ((Total no of contacts) * (Length of the Protein))
-        return(round((c_order)/(len(xa)*l),2))
+        try:
+           return(round((c_order)/(len(xa)*l),2))
+        except:
+            0
+
+
 
 
 
@@ -424,117 +517,117 @@ def Aromatic_Aromatic(f):
 
 
     
-def Main_Main_H_Bond(f):
-        fi = read_file(f)
-        m_n,m_s,m_o=[],[],[]
-        for i in fi:
-            aa=i.split()
-            if aa[0]=='ATOM' and aa[4]=='A' and aa[2] in ['N','NE','NH1','NH2','NZ','ND1','NE2','NE1','ND2']:
-                m_n.append(aa)
-            elif aa[0]=='ATOM' and aa[4]=='A' and aa[2] in ['O','OE2','OE1','OD1','OD2','OG1','OG2','OH','OG']:
-                m_o.append(aa)
-            elif aa[0]=='ATOM' and aa[4]=='A' and aa[2]==['SG','SD']:
-                m_s.append(aa)
-            if aa[0] == 'MODEL' and aa[1] == '2':
-                break
-        h_bond = []
-        i1=0
-        for i in m_n:
-         if i[2] == 'N':
-            j1=0
+# def Main_Main_H_Bond(f):
+#         fi = read_file(f)
+#         m_n,m_s,m_o=[],[],[]
+#         for i in fi:
+#             aa=i.split()
+#             if aa[0]=='ATOM' and aa[4]=='A' and aa[2] in ['N','NE','NH1','NH2','NZ','ND1','NE2','NE1','ND2']:
+#                 m_n.append(aa)
+#             elif aa[0]=='ATOM' and aa[4]=='A' and aa[2] in ['O','OE2','OE1','OD1','OD2','OG1','OG2','OH','OG']:
+#                 m_o.append(aa)
+#             elif aa[0]=='ATOM' and aa[4]=='A' and aa[2]==['SG','SD']:
+#                 m_s.append(aa)
+#             if aa[0] == 'MODEL' and aa[1] == '2':
+#                 break
+#         h_bond = []
+#         i1=0
+#         for i in m_n:
+#          if i[2] == 'N':
+#             j1=0
             
-            for j in m_o:
-              if j[2] == 'O':
-               if abs(int(i[5]) - int(j[5])) > 1:
-                d=distance_formula(i,j)
-                if 0<d**0.5<3.5 and [j[3],j[5],j[2],i[3],i[5],i[2],round(d**0.5,2)] not in h_bond:
-                    h_bond.append([i[3],i[5],i[2],j[3],j[5],j[2],round(d**0.5,2)])
-                j1=j1+1
-            i1=i1+1
-        h_bond = sorted(h_bond,key=lambda x : x[1])
-        return((h_bond))
+#             for j in m_o:
+#               if j[2] == 'O':
+#                if abs(int(i[5]) - int(j[5])) > 1:
+#                 d=distance_formula(i,j)
+#                 if 0<d**0.5<3.5 and [j[3],j[5],j[2],i[3],i[5],i[2],round(d**0.5,2)] not in h_bond:
+#                     h_bond.append([i[3],i[5],i[2],j[3],j[5],j[2],round(d**0.5,2)])
+#                 j1=j1+1
+#             i1=i1+1
+#         h_bond = sorted(h_bond,key=lambda x : x[1])
+#         return((h_bond))
     
     
-def Main_Side_Chain_H_Bond(f):
-        fi = read_file(f)
-        m_n,m_s,m_o=[],[],[]
-        for i in fi:
-            aa=i.split()
-            if aa[0]=='ATOM' and aa[4]=='A' and aa[2] in ['N','NE','NH1','NH2','NZ','ND1','NE2','NE1','ND2']:
-                m_n.append(aa)
-            elif aa[0]=='ATOM' and aa[4]=='A' and aa[2] in ['O','OE2','OE1','OD1','OD2','OG1','OG2','OH','OG']:
-                m_o.append(aa)
-            elif aa[0]=='ATOM' and aa[4]=='A' and aa[2]==['SG','SD']:
-                m_s.append(aa)
-            if aa[0] == 'MODEL' and aa[1] == '2':
-                break
+# def Main_Side_Chain_H_Bond(f):
+#         fi = read_file(f)
+#         m_n,m_s,m_o=[],[],[]
+#         for i in fi:
+#             aa=i.split()
+#             if aa[0]=='ATOM' and aa[4]=='A' and aa[2] in ['N','NE','NH1','NH2','NZ','ND1','NE2','NE1','ND2']:
+#                 m_n.append(aa)
+#             elif aa[0]=='ATOM' and aa[4]=='A' and aa[2] in ['O','OE2','OE1','OD1','OD2','OG1','OG2','OH','OG']:
+#                 m_o.append(aa)
+#             elif aa[0]=='ATOM' and aa[4]=='A' and aa[2]==['SG','SD']:
+#                 m_s.append(aa)
+#             if aa[0] == 'MODEL' and aa[1] == '2':
+#                 break
         
-        atoms= [*m_n,*m_o,*m_s]
-        h_bond = []
-        real = []
-        i1=0
-        for i in atoms:
+#         atoms= [*m_n,*m_o,*m_s]
+#         h_bond = []
+#         real = []
+#         i1=0
+#         for i in atoms:
            
-            j1=0
+#             j1=0
             
             
-            for j in atoms:
+#             for j in atoms:
              
-               if abs(int(i[5]) - int(j[5])) > 1:
+#                if abs(int(i[5]) - int(j[5])) > 1:
                 
-                 d=distance_formula(i,j)
+#                  d=distance_formula(i,j)
                 
-                 if 0<d**0.5<3.5:
-                    if i[2] == 'O':
-                      h_bond.append([j[3],j[5],j[2],i[3],i[5],i[2],round(d**0.5,2)])
-                    else:
-                        if j[2] == 'N':
-                          h_bond.append([j[3],j[5],j[2],i[3],i[5],i[2],round(d**0.5,2)])   
+#                  if 0<d**0.5<3.5:
+#                     if i[2] == 'O':
+#                       h_bond.append([j[3],j[5],j[2],i[3],i[5],i[2],round(d**0.5,2)])
+#                     else:
+#                         if j[2] == 'N':
+#                           h_bond.append([j[3],j[5],j[2],i[3],i[5],i[2],round(d**0.5,2)])   
                      
-               j1=j1+1
-            i1=i1+1
-        for i in h_bond:
-           if i[2] in ['N','O'] and i[5]in ['N','O']:
-               pass
-           elif i[2] in ['N','O'] or i[5]in ['N','O']:
-               real.append(i)
-        real = sorted(real,key=lambda x : x[1])
-        return(((real)))   
+#                j1=j1+1
+#             i1=i1+1
+#         for i in h_bond:
+#            if i[2] in ['N','O'] and i[5]in ['N','O']:
+#                pass
+#            elif i[2] in ['N','O'] or i[5]in ['N','O']:
+#                real.append(i)
+#         real = sorted(real,key=lambda x : x[1])
+#         return(((real)))   
     
     
     
-def Side_Side_Chain_H_Bond(f):
-        fi = read_file(f)
-        m_n,m_s,m_o=[],[],[]
-        for i in fi:
-            aa=i.split()
-            if aa[0]=='ATOM' and aa[4]=='A' and aa[2] in ['N','NE','NH1','NH2','NZ','ND1','NE2','NE1','ND2']:
-                m_n.append(aa)
-            elif aa[0]=='ATOM' and aa[4]=='A' and aa[2] in ['O','OE2','OE1','OD1','OD2','OG1','OG2','OH','OG']:
-                m_o.append(aa)
-            elif aa[0]=='ATOM' and aa[4]=='A' and aa[2]==['SG','SD']:
-                m_s.append(aa)
-            if aa[0] == 'MODEL' and aa[1] == '2':
-                break
-        atoms= [*m_n,*m_o,*m_s]
-        h_bond = []
+# def Side_Side_Chain_H_Bond(f):
+#         fi = read_file(f)
+#         m_n,m_s,m_o=[],[],[]
+#         for i in fi:
+#             aa=i.split()
+#             if aa[0]=='ATOM' and aa[4]=='A' and aa[2] in ['N','NE','NH1','NH2','NZ','ND1','NE2','NE1','ND2']:
+#                 m_n.append(aa)
+#             elif aa[0]=='ATOM' and aa[4]=='A' and aa[2] in ['O','OE2','OE1','OD1','OD2','OG1','OG2','OH','OG']:
+#                 m_o.append(aa)
+#             elif aa[0]=='ATOM' and aa[4]=='A' and aa[2]==['SG','SD']:
+#                 m_s.append(aa)
+#             if aa[0] == 'MODEL' and aa[1] == '2':
+#                 break
+#         atoms= [*m_n,*m_o,*m_s]
+#         h_bond = []
         
-        i1=0
-        for i in atoms:
-           if i[2] not in ['N','O']:
-            j1=0
+#         i1=0
+#         for i in atoms:
+#            if i[2] not in ['N','O']:
+#             j1=0
             
             
-            for j in atoms:
-              if j[2] not in ['N','O']:
-               if abs(int(i[5]) - int(j[5])) > 1:
-                d=distance_formula(i,j)
-                if 0<d**0.5<3.5 and [j[3],j[5],j[2],i[3],i[5],i[2],round(d**0.5,2)] not in h_bond:
-                    h_bond.append([i[3],i[5],i[2],j[3],j[5],j[2],round(d**0.5,2)])
-                j1=j1+1
-            i1=i1+1
+#             for j in atoms:
+#               if j[2] not in ['N','O']:
+#                if abs(int(i[5]) - int(j[5])) > 1:
+#                 d=distance_formula(i,j)
+#                 if 0<d**0.5<3.5 and [j[3],j[5],j[2],i[3],i[5],i[2],round(d**0.5,2)] not in h_bond:
+#                     h_bond.append([i[3],i[5],i[2],j[3],j[5],j[2],round(d**0.5,2)])
+#                 j1=j1+1
+#             i1=i1+1
         
-        return(((h_bond)))   
+#         return(((h_bond)))   
     
 def Ionic_Interaction(f):
         fi = read_file(f)
@@ -628,15 +721,16 @@ def Surr_Hydrophob(f):
 def Regions(f):
         extr,intr,helix= [],[],[]
         xm = read_xml(f)
+        
 
         for i in xm[0]:
             if i['type'] == '1':
                 for k in range(int(i['seq_beg']),int(i['seq_end'])+1):
                     extr.append(str(k))
-            elif i['type'] in ['B','H','I'] : 
+            elif i['type'] in ['B','H','I','U'] : 
                 for k in range(int(i['seq_beg']),int(i['seq_end'])+1):
                     helix.append(str(k))
-            else:
+            elif i['type'] =='2':
                 for k in range(int(i['seq_beg']),int(i['seq_end'])+1): 
                     intr.append(str(k))
         #print(helix)
@@ -728,6 +822,7 @@ def c_n(f):
         return [[xe,xh,xi],[ye,yh,yi],[ze,zh,zi],x,y,z]
 
 def pdb_to_hssp(pdb_file_path, rest_url):
+    
     # Read the pdb file data into a variable
     files = {'file_': open(pdb_file_path, 'rb')}
 
@@ -735,7 +830,7 @@ def pdb_to_hssp(pdb_file_path, rest_url):
     # If an error occurs, an exception is raised and the program exits. If the
     # request is successful, the id of the job running on the server is
     # returned.
-    url_create = '{}api/create/pdb_file/dssp/'.format(rest_url)
+    url_create = '{}/api/create/pdb_file/dssp/'.format(rest_url)
     r = requests.post(url_create, files=files)
     r.raise_for_status()
 
@@ -749,7 +844,7 @@ def pdb_to_hssp(pdb_file_path, rest_url):
         # Check the status of the running job. If an error occurs an exception
         # is raised and the program exits. If the request is successful, the
         # status is returned.
-        url_status = '{}api/status/pdb_file/dssp/{}/'.format(rest_url,
+        url_status = '{}/api/status/pdb_file/dssp/{}/'.format(rest_url,
                                                                   job_id)
         r = requests.get(url_status)
         r.raise_for_status()
@@ -776,7 +871,7 @@ def pdb_to_hssp(pdb_file_path, rest_url):
         # Requests the result of the job. If an error occurs an exception is
         # raised and the program exits. If the request is successful, the result
         # is returned.
-        url_result = '{}api/result/pdb_file/dssp/{}/'.format(rest_url,
+        url_result = '{}/api/result/pdb_file/dssp/{}/'.format(rest_url,
                                                                   job_id)
         r = requests.get(url_result)
         r.raise_for_status()
@@ -865,7 +960,7 @@ def home():
                   else:
                     return redirect(url_for('short_range',file=f,titles=base,cut=8,reg = 'all',ato = ato))
                     
-      elif base[0] in ['ionic interactions', 'disulphide interactions', 'hydrophobic interactions', 'cation pi interactions', 'aromatic aromatic interactions', 'mmch', 'msch', 'ssch']:
+      elif base[0] in ['ionic interactions', 'disulphide interactions', 'hydrophobic interactions', 'cation pi interactions', 'aromatic aromatic interactions','Main Chain-Main Chain Hydrogen Bonds','Main Chain-Side Chain / Side Chain-Main Chain Hydrogen Bonds','Side Chain-Side Chain Hydrogen Bonds']:
                 return redirect(url_for('medium_range',file=f,titles=base,reg = reg))
                
       #elif base[0] == 'contact map':
@@ -903,8 +998,9 @@ def short_range():
           for i in Regions(f)[3]:
             if i !='\n':
                sequ.append(i)
-          print((sequ))
-          return render_template('sr.html',x=[(Short_range(f,cu),'short range'),(Medium_range(f,cu),'medium range'),(Long_range(f,cu),'long range'),(Contact_Order(f),'contact order'),(LRO(f),'long range order'),(Surr_Hydrophob(f),'surrounding hydrophobicity'),(A8(f,cu,ato),'contacts',cu)],a=Regions(f)[0],b=Regions(f)[1],c=Regions(f)[2],d=sequ,title = t,r= region)
+          
+          #print(Short_range(f,cu),f)
+          return render_template('sr.html',x=[(Short_range(f,cu),'short range'),(Medium_range(f,cu),'medium range'),(Long_range(f,cu),'long range'),(LRO(f),'long range order'),(Surr_Hydrophob(f),'surrounding hydrophobicity'),(A8(f,cu,ato),'contacts',cu),(Contact_Order(f),'contact order')],a=Regions(f)[0],b=Regions(f)[1],c=Regions(f)[2],d=sequ,title = t,r= region)
           
             
 @app.route("/mr/")
@@ -913,8 +1009,9 @@ def medium_range():
           
 
         t = request.args.getlist('titles')
-
+        
         f = request.args['file']
+        r = read_hbplus(f)
         #region = request.args['reg']
         #region = 'all'
         sequ = ['']
@@ -922,7 +1019,7 @@ def medium_range():
             if i !='\n':
               sequ.append(i)
         
-        return render_template('mr.html',x=[(Ionic_Interaction(f),'ionic interactions'),(Hydrophobic_interaction(f),'hydrophobic interactions'),(Cation_pi(f),'cation pi interactions'),(Disulphide_interaction(f),'disulphide interactions'),(Aromatic_Aromatic(f),'aromatic aromatic interactions'),('A')],a=Regions(f)[0],b=Regions(f)[1],c=Regions(f)[2],d=sequ,title = t)
+        return render_template('mr.html',x=[(Ionic_Interaction(f),'ionic interactions'),(Hydrophobic_interaction(f),'hydrophobic interactions'),(Cation_pi(f),'cation pi interactions'),(Disulphide_interaction(f),'disulphide interactions'),(Aromatic_Aromatic(f),'aromatic aromatic interactions'),('A'),(r[0],'Main Chain-Main Chain Hydrogen Bonds'),(r[1],'Main Chain-Side Chain / Side Chain-Main Chain Hydrogen Bonds'),(r[2],'Side Chain-Side Chain Hydrogen Bonds')],a=Regions(f)[0],b=Regions(f)[1],c=Regions(f)[2],d=sequ,title = t)
 
 
 @app.route("/cmap/")
@@ -1192,11 +1289,132 @@ def binding_site():
 
 
 
-@app.route("/co/")
-@app.route("/co/<f>")
-def contact_order(f):
-          
-          return render_template('co.html',y=Contact_Order(f))
+@app.route("/ram_plot/")
+@app.route("/ram_plot/")
+def ramachandran_plot():
+    import math
+    f = request.args['file']
+    sequ = ['']
+    for i in Regions(f)[3]:
+            if i !='\n':
+              sequ.append(i)
+    print(f)
+    p = phi_psi(fetch("{}".format(f)))
+    print(p)
+    p_x,p_y= [],[]
+    for i in p.keys():
+        if p[i][0] and p[i][1]is not None:
+            p_x.append(p[i][0] / math.pi * 180)
+            p_y.append(p[i][1] / math.pi * 180)
+    cm = pd.DataFrame({'\u03C6':p_x,'\u03C8':p_y})
+    fig = px.scatter(cm,x='\u03C6',y='\u03C8',opacity=0.7,color_continuous_scale=px.colors.sequential.Turbo,template='plotly',width=1000,height=650)
+    # import plotly.express as px
+    # fig = px.density_contour(cm, x="\u03C6", y="\u03C8",width=800,height=650)
+    
+ 
+    # fig.update_traces(contours_coloring="fill")
+    # fig.add_trace(go.Scatter(x=p_x,y=p_y,mode='markers',marker=dict(
+    #     size=3,
+    #     color='yellow'
+    # )))
+
+    # fig.show()
+    fig.update_layout(
+    font_family="Courier New",
+    font_color="Red",
+    font_size=25,
+    title_font_size=25,
+    legend_title_font_color="Red",
+    title={
+        'text': 'Ramachandran plot {}'.format(f),
+        'y':0.95,
+        'x':0.5,
+        'xanchor': 'center',
+        'yanchor': 'top'
+        
+        },
+    yaxis_range=[-180, 180],
+    xaxis_range=[-180, 180],
+    )
+    my_plot_div = fig.to_html(full_html=True)
+
+
+
+#     result = pdb_to_hssp(r'C:/Users/Dell/Desktop/Transmembrane/pdbf/{}.pdb'.format(f), 'https://www3.cmbi.umcn.nl/xssp/')
+#     print(result)
+    
+#     l=result.splitlines()
+#     final=[]
+#     for i in l:
+#         k=''
+#         for j in i:
+#             if j=='-':
+#                 k=k+' '+'-'
+#             else:
+#                 k=k+j
+#         final.append(k.split())
+#     i=0
+#     while i<len(final):
+#         if final[i][1]=='RESIDUE':
+#             k=i
+#         i=i+1
+    
+#     phi=[]
+#     psi=[]
+#     for i in range(k+1,len(final)):
+#         if -180<=float(final[i][-4])<=180:
+#             psi.append(float(final[i][-4]))
+#         elif 360>=float(final[i][-4])>180:
+#             psi.append(float(final[i][-4])-360)
+#         elif -360<=float(final[i][-4])<-180:
+#             psi.append(360+final[i][-4])
+#         else:
+#             pass
+#         if -180<=float(final[i][-5])<=180:
+#             phi.append(float(final[i][-5]))
+#         elif 360>=float(final[i][-5])>180:
+#             phi.append(float(final[i][-5])-360)
+#         elif -360<=float(final[i][-5])<-180:
+#             phi.append(float(final[i][-5])+360)
+#         else:
+#             pass
+#         #rama_preferences = {
+#         #"General": {
+#          #   "file": "rama500-general.data",
+#           #  "cmap":mpl.colors.ListedColormap(['#FFFFFF', '#B3E8FF', '#7FD9FF']),
+#            # "bounds": [0, 0.0005, 0.02, 1],
+#         #}
+#         #}
+    
+    
+    
+#     cm = pd.DataFrame({"\u03A6":phi,"\u03C6":psi})
+    
+#     #fig = px.imshow(Z,color_continuous_scale=px.colors.sequential.Rainbow,labels=dict(x="\u03A6", y="\u03C6", color="Intensity"),title='Ramachandran Plot      {}'.format(f),template='plotly_dark',width=750,height=550)
+#     #colorscale = ['#7A4579', '#D56073', 'rgb(236,158,105)', (1, 1, 0.2), (0.98,0.98,0.98)]
+
+#     #fig = ff.create_2d_density(
+#     #phi, psi, colorscale="Rainbow",
+#     #point_size=3,title='Ramachandran Plot      {}'.format(f),width=750,height=550
+# #)
+#     fig = px.density_contour(cm,x="\u03A6", y="\u03C6",labels=dict(x="\u03A6", y="\u03C6"),title='Ramachandran Plot      {}'.format(f),color_discrete_sequence=px.colors.sequential.Blackbody,template='plotly_dark',width=750,height=550)
+#     fig.update_traces(contours_showlabels=True, contours_coloring='fill')
+#     fig.update_layout(
+#     font_family="Courier New",
+#     font_color="#66ff00",
+#     font_size=25,
+#     title_font_size=25,
+#     legend_title_font_color="green",
+    
+# )   
+
+#     my_plot_div = fig.to_html(full_html=True)
+     #my_plot_div = plot([Scatter(x=cm[0], y=cm[1])],x='Amino_acid',y='Amino_acid', output_type='div')
+     # Create figure
+    
+    return render_template('ram_plot.html',div_placeholder=Markup(my_plot_div), f=f,a=Regions(f)[0],b=Regions(f)[1],c=Regions(f)[2],d=sequ)
+
+
 
 
 
@@ -1214,8 +1432,6 @@ def surr_hydro(f):
 @app.route("/lro/<f>")
 def long_range_order(f):
           stack = LRO(f)
-          return render_template('ion.html',y=stack[0],x=stack[2],z='Long_Range_Order')
-
 
 
 @app.route("/cd/")
@@ -1325,6 +1541,10 @@ def regions(f):
 
 if __name__ == "__main__":
     app.run(debug=True)
+    
+  
+    
+    
     
   
     
