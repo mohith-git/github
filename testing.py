@@ -1298,9 +1298,9 @@ def ramachandran_plot():
     for i in Regions(f)[3]:
             if i !='\n':
               sequ.append(i)
-    print(f)
+    #print(f)
     p = phi_psi(fetch("{}".format(f)))
-    print(p)
+    #print(p)
     p_x,p_y= [],[]
     for i in p.keys():
         if p[i][0] and p[i][1]is not None:
